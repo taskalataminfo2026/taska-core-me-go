@@ -1,0 +1,22 @@
+{
+  "code": 200,
+  "message": "OK",
+  "data": {
+    "id": 18,
+    "user_name": "wvalencia004",
+    "firstName": "wilson emilio",
+    "lastName": "valencia saldarriaga",
+    "email": "taska.latam.info@gmail.com",
+    "countryCode": "+57",
+    "phoneNumber": "3042586799",
+    "userType": "",
+    "profilePictureUrl": "",
+    "birthDate": "0001-01-01T00:00:00Z",
+    "tasksCompleted": 0,
+    "themePreference": "",
+    "verificationCode": "735196",
+    "verificationAttempts": 0,
+    "isActive": true,
+    "isVerified": true
+  }
+}
