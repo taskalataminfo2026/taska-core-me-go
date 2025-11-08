@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 	"github.com/joho/godotenv"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/middlewares"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"os"
 	"os/signal"
 	"syscall"
 	"taska-core-me-go/cmd/api/app"
 	"taska-core-me-go/cmd/api/app/providers"
+	middlewares2 "taska-core-me-go/cmd/api/middlewares"
 	"time"
 )
 
@@ -43,7 +43,7 @@ func main() {
 		logger.Error(context.Background(), "[server] Error al conectar a la base de datos: %v", err)
 		os.Exit(1)
 	}
-	middlewares.InitRoleMiddleware(db)
+	middlewares2.InitRoleMiddleware(db)
 
 	appInstance, err := app.Start()
 	if err != nil {
