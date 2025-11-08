@@ -46,14 +46,14 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
 
       - name: Verify dependencies
         run: go mod tidy
 
-      ## Si tienes linter, lo puedes activar luego
-      ## - name: Run Linter
-      ##   run: go vet ./...
+      # Linter opcional
+      # - name: Run Linter
+      #   run: go vet ./...
 
       - name: Run Tests
         run: go test ./... -v
