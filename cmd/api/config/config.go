@@ -5,9 +5,12 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"path/filepath"
 	"taska-core-me-go/cmd/api/constants"
 	"time"
 )
+
+// ---------------------- Structs ----------------------
 
 type ConnectionConfig struct {
 	Username             string
@@ -43,7 +46,11 @@ type AppConfig struct {
 	Env   string
 }
 
+// ---------------------- Variable global ----------------------
+
 var Config *AppConfig
+
+// ---------------------- Inicialización ----------------------
 
 func init() {
 	env := os.Getenv("GO_ENVIRONMENT")
@@ -51,19 +58,10 @@ func init() {
 		env = constants.ScopeLocal
 	}
 
-	// Selecciona el archivo de entorno correcto según el ambiente
-	envFile := ".env.local"
-	switch env {
-	case constants.ScopeTest:
-		envFile = ".env.test"
-	case constants.ScopeProduction:
-		envFile = ".env.prod"
-	}
+	// 🔹 Carga robusta del archivo .env
+	loadEnvFile(env)
 
-	if err := godotenv.Load(envFile); err != nil {
-		log.Printf("⚠️  No se pudo cargar %s, usando variables del sistema.", envFile)
-	}
-
+	// 🔹 Inicialización de configuraciones
 	dbConfig := ConnectionConfig{
 		Username:             getEnv("DB_USER", "postgres"),
 		Password:             getEnv("DB_PASSWORD", ""),
@@ -99,6 +97,53 @@ func init() {
 	}
 }
 
+// ---------------------- Funciones auxiliares ----------------------
+
+// loadEnvFile carga el archivo .env correspondiente según el ambiente
+func loadEnvFile(env string) {
+	envFiles := map[string]string{
+		constants.ScopeLocal:      ".env.local",
+		constants.ScopeTest:       ".env.test",
+		constants.ScopeProduction: ".env.prod",
+	}
+
+	envFile, ok := envFiles[env]
+	if !ok {
+		log.Fatalf("❌ No hay archivo de entorno configurado para %s", env)
+	}
+
+	projectRoot := findProjectRoot()
+	fullPath := filepath.Join(projectRoot, envFile)
+
+	if err := godotenv.Load(fullPath); err != nil {
+		log.Printf("⚠️ No se pudo cargar %s, usando variables del sistema", fullPath)
+	} else {
+		log.Printf("✅ Cargado archivo de entorno: %s", fullPath)
+	}
+}
+
+// findProjectRoot busca la raíz del proyecto buscando go.mod
+func findProjectRoot() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir
+		}
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			break
+		}
+		dir = parent
+	}
+	log.Fatal("❌ No se pudo encontrar el proyecto raíz (go.mod)")
+	return ""
+}
+
+// getEnv obtiene una variable de entorno o devuelve fallback
 func getEnv(key, fallback string) string {
 	if val := os.Getenv(key); val != "" {
 		return val
@@ -106,6 +151,7 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
+// getIntEnv obtiene una variable de entorno como int o devuelve fallback
 func getIntEnv(key string, fallback int) int {
 	if val := os.Getenv(key); val != "" {
 		var i int
@@ -116,6 +162,7 @@ func getIntEnv(key string, fallback int) int {
 	return fallback
 }
 
+// getDurationEnv obtiene una variable de entorno como duración en segundos o devuelve fallback
 func getDurationEnv(key string, fallback int) time.Duration {
 	if val := os.Getenv(key); val != "" {
 		var i int
