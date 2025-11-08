@@ -16,10 +16,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN_PRIVATE }} # Usa el token también para el checkout
 
       - name: Configure Git for private modules
         run: |
-          git config --global url."https://${{ secrets.TOKEN_PRIVATE }}@github.com/".insteadOf "https://github.com/"
+          echo "machine github.com login ${{ secrets.TOKEN_PRIVATE }}" > ~/.netrc
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+          git config --global url."https://${{ secrets.TOKEN_PRIVATE }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Setup Go
         uses: actions/setup-go@v5
