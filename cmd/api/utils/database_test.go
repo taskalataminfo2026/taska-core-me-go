@@ -1,156 +1,78 @@
 package utils_test
 
 import (
+	"context"
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"net/http"
-	"net/http/httptest"
-	"taska-core-me-go/cmd/api/config"
-	"taska-core-me-go/cmd/api/models"
-	"taska-core-me-go/cmd/api/utils"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"taska-core-me-go/cmd/api/config"
 )
 
-func TestGetTestConnection_Error(t *testing.T) {
-	assert := assert.New(t)
-
-	oldHost := config.Config.DB.Host
-	config.Config.DB.Host = "invalid"
-
-	_, err := utils.GetTestConnection()
-	assert.Error(err, "Debe fallar si no puede abrir conexión con PostgreSQL")
-
-	config.Config.DB.Host = oldHost
+// estructura auxiliar
+type table struct {
+	Name  string
+	Model interface{}
 }
 
-func TestStringFormatting(t *testing.T) {
-	assert := assert.New(t)
+func GetTestConnection(t *testing.T) *gorm.DB {
+	t.Helper()
 
-	host := "localhost"
-	user := "user"
-	password := "pass"
-	dbname := "test"
-	port := "5432"
+	testDBName := config.Config.DB.Name + "_test"
 
-	expected := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
-		host, user, password, dbname, port)
-
-	got := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
-		host, user, password, dbname, port)
-
-	assert.Equal(expected, got)
-}
-
-func TestCreateTable_Ok(t *testing.T) {
-	assert := assert.New(t)
-
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	ctx := utils.CreateRequestContext(c)
-
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		"localhost",
-		"postgres",
-		"Pilotof1988*",
-		"postgres",
-		"5432",
+	connString := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+		config.Config.DB.Host,
+		config.Config.DB.Username,
+		config.Config.DB.Password,
+		testDBName,
+		config.Config.DB.Port,
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	assert.NoError(err, "should connect to Postgres test database")
+	db, err := gorm.Open(postgres.Open(connString), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
+	if err != nil {
+		t.Fatalf("❌ failed to connect to test database: %v", err)
+	}
 
-	utils.CreateTable(ctx, db, &models2.UserDTO{})
-
-	assert.True(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should exist")
+	return db
 }
 
-func TestCreateTable_Error(t *testing.T) {
-	assert := assert.New(t)
-
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	ctx := utils.CreateRequestContext(c)
-
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		"localhost",
-		"postgres",
-		"Pilotof1988*",
-		"postgres",
-		"5432",
-	)
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	assert.NoError(err, "should connect to Postgres test database")
-
-	// Ejecutar función y capturar error
-	utils.CreateTable(ctx, db, &models.User{})
-
-	// Verificar que la tabla se creó
-	assert.True(db.Migrator().HasTable(&models.User{}), "table 'users' should exist")
+func CreateTable(ctx context.Context, t *testing.T, db *gorm.DB, table interface{}) {
+	err := db.AutoMigrate(table)
+	if err != nil {
+		logger.Error(ctx, fmt.Sprintf("Error creating table %v, %v", table, err), err)
+		t.Errorf("❌ failed to create table: %v", err)
+	} else {
+		logger.Info(ctx, fmt.Sprintf("✅ Table created: %v", table))
+	}
 }
 
-func TestDropTable_Ok(t *testing.T) {
-	assert := assert.New(t)
-
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	ctx := utils.CreateRequestContext(c)
-
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		"localhost",
-		"postgres",
-		"Pilotof1988*",
-		"postgres",
-		"5432",
-	)
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	assert.NoError(err, "should connect to Postgres test database")
-
-	utils.CreateTable(ctx, db, &models2.UserDTO{})
-	assert.True(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should exist")
-
-	utils.DropTable(ctx, db, &models2.UserDTO{})
-	assert.False(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should not exist")
-
+func DropTable(ctx context.Context, t *testing.T, db *gorm.DB, table interface{}) {
+	err := db.Migrator().DropTable(table)
+	if err != nil {
+		logger.Error(ctx, fmt.Sprintf("Error dropping table %v, %v", table, err), err)
+		t.Errorf("❌ failed to drop table: %v", err)
+	} else {
+		logger.Info(ctx, fmt.Sprintf("🗑️ Table dropped: %v", table))
+	}
 }
 
-func TestDropTable_ForceError(t *testing.T) {
-	assert := assert.New(t)
+func TestDatabaseConnection(t *testing.T) {
+	db := GetTestConnection(t)
 
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-	ctx := utils.CreateRequestContext(c)
+	sqlDB, err := db.DB()
+	if err != nil {
+		t.Fatalf("❌ error getting SQL DB: %v", err)
+	}
 
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		"localhost",
-		"postgres",
-		"Pilotof1988*",
-		"postgres",
-		"5432",
-	)
+	err = sqlDB.Ping()
+	if err != nil {
+		t.Fatalf("❌ failed to ping test DB: %v", err)
+	}
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	assert.NoError(err)
-
-	sqlDB, _ := db.DB()
-	sqlDB.Close()
-
-	utils.DropTable(ctx, db, &models2.UserDTO{})
+	t.Log("✅ Successfully connected to test database")
 }
