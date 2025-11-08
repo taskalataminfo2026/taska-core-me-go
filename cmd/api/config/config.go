@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -45,25 +46,33 @@ type AppConfig struct {
 var Config *AppConfig
 
 func init() {
-
-	if err := godotenv.Load(); err != nil {
-		log.Println("⚠️  No se pudo cargar el archivo .env, usando variables de entorno del sistema.")
-	}
-
 	env := os.Getenv("GO_ENVIRONMENT")
 	if env == "" {
 		env = constants.ScopeLocal
 	}
 
+	// Selecciona el archivo de entorno correcto según el ambiente
+	envFile := ".env.local"
+	switch env {
+	case constants.ScopeTest:
+		envFile = ".env.test"
+	case constants.ScopeProduction:
+		envFile = ".env.prod"
+	}
+
+	if err := godotenv.Load(envFile); err != nil {
+		log.Printf("⚠️  No se pudo cargar %s, usando variables del sistema.", envFile)
+	}
+
 	dbConfig := ConnectionConfig{
 		Username:             getEnv("DB_USER", "postgres"),
-		Password:             getEnv("DB_PASSWORD", "Pilotof1988*"),
+		Password:             getEnv("DB_PASSWORD", ""),
 		Host:                 getEnv("DB_HOST", "localhost"),
 		Name:                 getEnv("DB_NAME", "postgres"),
 		Port:                 getEnv("DB_PORT", "5432"),
-		SSLMode:              getEnv("DB_SSLMODE", "require"),
-		MaxIdleConnections:   500,
-		MaxOpenConnections:   500,
+		SSLMode:              getEnv("DB_SSLMODE", "disable"),
+		MaxIdleConnections:   50,
+		MaxOpenConnections:   100,
 		MaxConnectionRetries: 3,
 		MaxBatchSize:         100,
 		ConnMaxLifetime:      600 * time.Second,
@@ -71,15 +80,15 @@ func init() {
 	}
 
 	jwtConfig := JWTManager{
-		SecretKey:     getEnv("JWT_SECRET", "your-256-bit-secret"),
+		SecretKey:     getEnv("JWT_SECRET", "default-secret"),
 		AccessExpiry:  15 * time.Minute,
 		RefreshExpiry: 90 * 24 * time.Hour,
 		ExpiredTokens: 24 * time.Hour,
 	}
 
 	rustyConfig := RustyClientConfig{
-		DefaultTimeOut: 11 * time.Second,
-		RetryCount:     3,
+		DefaultTimeOut: getDurationEnv("RUSTY_TIMEOUT", 11) * time.Second,
+		RetryCount:     getIntEnv("RUSTY_RETRY_COUNT", 3),
 	}
 
 	Config = &AppConfig{
@@ -88,7 +97,6 @@ func init() {
 		Rusty: rustyConfig,
 		Env:   env,
 	}
-
 }
 
 func getEnv(key, fallback string) string {
@@ -96,4 +104,24 @@ func getEnv(key, fallback string) string {
 		return val
 	}
 	return fallback
+}
+
+func getIntEnv(key string, fallback int) int {
+	if val := os.Getenv(key); val != "" {
+		var i int
+		if _, err := fmt.Sscanf(val, "%d", &i); err == nil {
+			return i
+		}
+	}
+	return fallback
+}
+
+func getDurationEnv(key string, fallback int) time.Duration {
+	if val := os.Getenv(key); val != "" {
+		var i int
+		if _, err := fmt.Sscanf(val, "%d", &i); err == nil {
+			return time.Duration(i)
+		}
+	}
+	return time.Duration(fallback)
 }
