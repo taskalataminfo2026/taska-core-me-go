@@ -28,4 +28,8 @@ const (
 	FunctionGenerateRefreshToken = "generate_refresh_token"
 	FunctionRefreshToken         = "refresh_token"
 	FunctionValidateToken        = "validate_token"
+	FunctionDeleteExpired        = "delete_expired"
+	FunctionFirstByToken         = "first_by_token"
+	FunctionFirstByTokenNil      = "first_by_token_nil"
+	FunctionSave                 = "save"
 )

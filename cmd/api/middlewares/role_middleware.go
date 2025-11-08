@@ -3,11 +3,11 @@ package middlewares
 import (
 	"context"
 	"errors"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/repositories"
 	"net/http"
 	"sync"
 	"taska-core-me-go/cmd/api/constants"
 	"taska-core-me-go/cmd/api/models"
+	"taska-core-me-go/cmd/api/repositories"
 
 	"gorm.io/gorm"
 

@@ -34,6 +34,8 @@ var ServicesRouterSet = wire.NewSet(
 var RepositoryRouterSet = wire.NewSet(
 	providers.RolesTokenRepository,
 	wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)),
+	providers.BlacklistedTokenRepository,
+	wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)),
 )
 
 // 🔹 Validators

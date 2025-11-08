@@ -10,6 +10,13 @@ const (
 	ErrProcessingPassword = "Error al procesar la contraseña."
 )
 
+// Client DB.
+const (
+	ErrGettingDatabase       = "Error obteniendo la base de datos."
+	ErrOpeningDBConnection   = "Error abriendo la conexión a la base de datos: %v."
+	OpenDBConnectionsMessage = "Conexiones abiertas: %v."
+)
+
 // Client JWT.
 const (
 	ErrMsgAccessTokenGenFailed    = "No se pudo generar el token de acceso."
@@ -39,4 +46,11 @@ const (
 const (
 	ErrorMessageErrorFindingUser       = "Error al buscar el usuario: %v."
 	ErrorMessageUserNotFoundByUserName = "No se encuentra ningún usuario con el nombre de usuario proporcionado."
+)
+
+// BlacklistedToken repositories.
+const (
+	ErrorMessageTokenNotFound     = "El token no se encuentra en la lista negra."
+	ErrorMessageErrorFindingToken = "Error al buscar el token en la lista negra."
+	ErrorMessageSavingToken       = "Error al guardar o actualizar  el token en la lista negra: %s"
 )
