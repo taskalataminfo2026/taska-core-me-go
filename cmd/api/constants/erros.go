@@ -54,3 +54,16 @@ const (
 	ErrorMessageErrorFindingToken = "Error al buscar el token en la lista negra."
 	ErrorMessageSavingToken       = "Error al guardar o actualizar  el token en la lista negra: %s"
 )
+
+// Users models.
+const (
+	MsgInvalidEmail         = "Correo electrónico inválido."
+	MsgPasswordLowercase    = "La contraseña debe contener al menos una letra minúscula."
+	MsgPasswordMinLength    = "La contraseña debe tener al menos 5 caracteres."
+	MsgPasswordNumber       = "La contraseña debe contener al menos un número."
+	MsgPasswordSpecialChar  = "La contraseña debe contener al menos un carácter especial."
+	MsgPasswordUppercase    = "La contraseña debe contener al menos una letra mayúscula."
+	MsgUsernameInvalidChars = "El nombre de usuario solo puede contener letras, números, guiones bajos y puntos."
+	MsgUsernameMaxLength    = "El nombre de usuario no puede tener más de 75 caracteres."
+	MsgUsernameMinLength    = "El nombre de usuario debe tener al menos 3 caracteres."
+)

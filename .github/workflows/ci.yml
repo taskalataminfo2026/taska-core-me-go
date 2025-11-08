@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.TOKEN_PRIVATE }} # Usa el token también para el checkout
+          token: ${{ secrets.TOKEN_PRIVATE }}
 
       - name: Configure Git for private modules
         run: |
