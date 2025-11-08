@@ -3,12 +3,12 @@ package providers
 import (
 	"context"
 	"fmt"
+	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/config"
+	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/constants"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"
-	"taska-core-me-go/cmd/api/config"
-	"taska-core-me-go/cmd/api/constants"
 )
 
 func DatabaseConnectionPostgres() (*gorm.DB, error) {

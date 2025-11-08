@@ -16,7 +16,7 @@ import (
 
 // @title Taska Auth API
 // @version 1.0
-// @description API de autenticación y gestión de usuarios para Taska LATAM.
+// @description Servicio Core
 // @termsOfService https://taska/terminos
 
 // @contact.name Soporte Taska

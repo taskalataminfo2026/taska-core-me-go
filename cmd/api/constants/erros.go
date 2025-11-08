@@ -1,12 +1,5 @@
 package constants
 
-// Client DB.
-const (
-	ErrGettingDatabase       = "Error obteniendo la base de datos."
-	ErrOpeningDBConnection   = "Error abriendo la conexión a la base de datos: %v."
-	OpenDBConnectionsMessage = "Conexiones abiertas: %v."
-)
-
 // Core services - Error messages
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
@@ -40,4 +33,10 @@ const (
 	ErrPermissionDenied  = "No tienes permisos suficientes para acceder a este recurso."
 	ErrRoleHierarchyLoad = "Error al cargar jerarquía de roles."
 	ErrTokenRevoked      = "El token ha sido revocado. Por favor inicia sesión nuevamente."
+)
+
+// Users repositories.
+const (
+	ErrorMessageErrorFindingUser       = "Error al buscar el usuario: %v."
+	ErrorMessageUserNotFoundByUserName = "No se encuentra ningún usuario con el nombre de usuario proporcionado."
 )

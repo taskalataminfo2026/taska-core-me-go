@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/constants"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/models"
-	modelsDB "github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/repositories/models"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/response_capture"
 	"gorm.io/gorm"
 	"net/http"
+	"taska-core-me-go/cmd/api/constants"
+	"taska-core-me-go/cmd/api/models"
+	modelsDB "taska-core-me-go/cmd/api/repositories/models"
 )
 
 //go:generate mockgen -destination=../mocks/repositories/$GOFILE -package=mrepositories -source=./$GOFILE
