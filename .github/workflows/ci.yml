@@ -1,21 +1,37 @@
 name: CI Checks
+
 on:
   pull_request:
     branches: [develop, release/*, master]
 
+env:
+  GOPRIVATE: github.com/taskalataminfo2026/*
+  GONOSUMDB: github.com/taskalataminfo2026/*
+  GONOPROXY: github.com/taskalataminfo2026/*
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure Git for private modules
+        run: |
+          git config --global url."https://${{ secrets.TOKEN_PRIVATE }}@github.com/".insteadOf "https://github.com/"
 
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
 
+      - name: Verify dependencies
+        run: go mod tidy
+
+      ## Si tienes linter, lo puedes activar luego
       ## - name: Run Linter
-      ##  run: go vet ./...
+      ##   run: go vet ./...
 
       - name: Run Tests
         run: go test ./... -v
