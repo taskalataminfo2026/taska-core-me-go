@@ -10,8 +10,6 @@ import (
 	"time"
 )
 
-// ---------------------- Structs ----------------------
-
 type ConnectionConfig struct {
 	Username             string
 	Password             string
@@ -46,11 +44,7 @@ type AppConfig struct {
 	Env   string
 }
 
-// ---------------------- Variable global ----------------------
-
 var Config *AppConfig
-
-// ---------------------- Inicialización ----------------------
 
 func init() {
 	env := os.Getenv("GO_ENVIRONMENT")
@@ -58,10 +52,8 @@ func init() {
 		env = constants.ScopeLocal
 	}
 
-	// 🔹 Carga robusta del archivo .env
 	loadEnvFile(env)
 
-	// 🔹 Inicialización de configuraciones
 	dbConfig := ConnectionConfig{
 		Username:             getEnv("DB_USER", "postgres"),
 		Password:             getEnv("DB_PASSWORD", ""),
@@ -97,9 +89,6 @@ func init() {
 	}
 }
 
-// ---------------------- Funciones auxiliares ----------------------
-
-// loadEnvFile carga el archivo .env correspondiente según el ambiente
 func loadEnvFile(env string) {
 	envFiles := map[string]string{
 		constants.ScopeLocal:      ".env.local",
@@ -109,16 +98,16 @@ func loadEnvFile(env string) {
 
 	envFile, ok := envFiles[env]
 	if !ok {
-		log.Fatalf("❌ No hay archivo de entorno configurado para %s", env)
+		log.Fatalf("No hay archivo de entorno configurado para %s", env)
 	}
 
 	projectRoot := findProjectRoot()
 	fullPath := filepath.Join(projectRoot, envFile)
 
 	if err := godotenv.Load(fullPath); err != nil {
-		log.Printf("⚠️ No se pudo cargar %s, usando variables del sistema", fullPath)
+		log.Printf("No se pudo cargar %s, usando variables del sistema", fullPath)
 	} else {
-		log.Printf("✅ Cargado archivo de entorno: %s", fullPath)
+		log.Printf("Cargado archivo de entorno: %s", fullPath)
 	}
 }
 
@@ -139,7 +128,7 @@ func findProjectRoot() string {
 		}
 		dir = parent
 	}
-	log.Fatal("❌ No se pudo encontrar el proyecto raíz (go.mod)")
+	log.Fatal("No se pudo encontrar el proyecto raíz (go.mod)")
 	return ""
 }
 
