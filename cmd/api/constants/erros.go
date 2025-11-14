@@ -1,11 +1,11 @@
 package constants
 
-// Core services - Error message
+// Core services - Error message.
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
 )
 
-// Password hash
+// Password hash.
 const (
 	ErrProcessingPassword = "Error al procesar la contraseña."
 )
@@ -35,7 +35,7 @@ const (
 	ErrTokenBlacklistValidation   = "Error validando token en lista negra"
 )
 
-// Auth services - Error messages
+// Auth services - Error messages.
 const (
 	ErrPermissionDenied  = "No tienes permisos suficientes para acceder a este recurso."
 	ErrRoleHierarchyLoad = "Error al cargar jerarquía de roles."
