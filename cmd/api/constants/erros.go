@@ -1,6 +1,6 @@
 package constants
 
-// Core services - Error messages
+// Core services - Error message
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
 )
