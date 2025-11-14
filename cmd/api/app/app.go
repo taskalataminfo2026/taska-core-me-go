@@ -6,15 +6,16 @@ package app
 import (
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/repositories"
 	"taska-core-me-go/cmd/api/app/providers"
 	"taska-core-me-go/cmd/api/clients/rusty"
+	"taska-core-me-go/cmd/api/repositories"
+	"taska-core-me-go/cmd/api/services"
 	"taska-core-me-go/cmd/api/validator"
 )
 
 // 🔹 Database
 var DatabaseSet = wire.NewSet(
-	providers.DatabaseConnectionPostgres(),
+	providers.DatabaseConnectionPostgres,
 )
 
 // 🔹 Clients
@@ -33,6 +34,8 @@ var ServicesRouterSet = wire.NewSet(
 var RepositoryRouterSet = wire.NewSet(
 	providers.RolesTokenRepository,
 	wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)),
+	providers.BlacklistedTokenRepository,
+	wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)),
 )
 
 // 🔹 Validators

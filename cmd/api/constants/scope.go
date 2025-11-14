@@ -1,7 +1,7 @@
 package constants
 
 const (
-	ScopeLocal = "local"
-	ScopeBeta  = "beta"
-	ScopeProd  = "prod"
+	ScopeLocal      = "local"
+	ScopeTest       = "test"
+	ScopeProduction = "production"
 )

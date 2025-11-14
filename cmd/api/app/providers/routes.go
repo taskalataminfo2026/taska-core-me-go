@@ -26,8 +26,7 @@ func ProviderRouter() *echo.Echo {
 		return c.JSON(http.StatusOK, map[string]string{
 			"status":  "OK",
 			"service": "taska-core-me-go",
-			"version": "1.0.0",
-		})
+			"version": "1.0.0"})
 	})
 
 	return router

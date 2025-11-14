@@ -1,9 +1,9 @@
 package models
 
 import (
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/models"
 	"gorm.io/gorm"
 	"strings"
+	"taska-core-me-go/cmd/api/models"
 	"time"
 )
 
@@ -42,9 +42,9 @@ func (u *RoleDb) ToDomainModel() models.Role {
 }
 
 type ParamRoleDb struct {
-	ID    int64
-	Name  string
-	Level int
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Level int    `json:"level"`
 }
 
 func (u *ParamRoleDb) GetQueryRoles() (string, []interface{}) {
