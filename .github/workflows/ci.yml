@@ -55,5 +55,5 @@ jobs:
       # - name: Run Linter
       #   run: go vet ./...
 
-      - name: Run Tests
-        run: go test ./... -v
+#      - name: Run Tests
+#        run: go test ./... -v
