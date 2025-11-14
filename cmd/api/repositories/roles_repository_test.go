@@ -4,10 +4,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	models2 "github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/models"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/repositories"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/repositories/models"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/utils"
+	models2 "taska-core-me-go/cmd/api/models"
+	"taska-core-me-go/cmd/api/repositories"
+	"taska-core-me-go/cmd/api/repositories/models"
+	"taska-core-me-go/cmd/api/utils"
 )
 
 func TestRolesRepository_FindAll(t *testing.T) {

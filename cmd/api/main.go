@@ -3,20 +3,20 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/joho/godotenv"
-	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
+
+	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"taska-core-me-go/cmd/api/app"
 	"taska-core-me-go/cmd/api/app/providers"
 	middlewares2 "taska-core-me-go/cmd/api/middlewares"
-	"time"
 )
 
 // @title Taska Auth API
 // @version 1.0
-// @description API de autenticación y gestión de usuarios para Taska LATAM.
+// @description Servicio Core
 // @termsOfService https://taska/terminos
 
 // @contact.name Soporte Taska
@@ -28,26 +28,23 @@ import (
 // @host localhost:8080
 // @BasePath /v1/api/core
 func main() {
+	ctx := context.Background()
+
 	logger.Init()
 	defer logger.Sync()
 
-	ctx := context.Background()
 	logger.Info(ctx, "[server] Inicializando aplicación...")
-
-	if err := godotenv.Load(); err != nil {
-		logger.Warn(context.Background(), "[server] No se encontró archivo .env, se usarán variables del sistema")
-	}
 
 	db, err := providers.DatabaseConnectionPostgres()
 	if err != nil {
-		logger.Error(context.Background(), "[server] Error al conectar a la base de datos: %v", err)
+		logger.Error(ctx, "[server] Error al conectar a la base de datos: %v", err)
 		os.Exit(1)
 	}
 	middlewares2.InitRoleMiddleware(db)
 
 	appInstance, err := app.Start()
 	if err != nil {
-		logger.Error(context.Background(), "[server] Error al inicializar la aplicación: %v", err)
+		logger.Error(ctx, "[server] Error al inicializar la aplicación: %v", err)
 		os.Exit(1)
 	}
 
@@ -58,15 +55,13 @@ func main() {
 			port = "8080"
 		}
 	}
-
 	addr := ":" + port
-
-	logger.Info(context.Background(), fmt.Sprintf("[server] Configurando servidor en el puerto %s", addr))
+	logger.Info(ctx, fmt.Sprintf("[server] Configurando servidor en el puerto %s", addr))
 
 	go func() {
-		logger.Info(context.Background(), "[server] Iniciando servidor HTTP...")
+		logger.Info(ctx, "[server] Iniciando servidor HTTP...")
 		if err := appInstance.Start(addr); err != nil {
-			logger.Error(context.Background(), "[server] Error al iniciar el servidor: %v", err)
+			logger.Error(ctx, "[server] Error al iniciar el servidor: %v", err)
 			os.Exit(1)
 		}
 	}()
@@ -75,14 +70,14 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	logger.Info(context.Background(), "[server] Señal de apagado recibida, cerrando servidor...")
+	logger.Info(ctx, "[server] Señal de apagado recibida, cerrando servidor...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := appInstance.Shutdown(ctx); err != nil {
-		logger.Error(context.Background(), "[server] Error al cerrar el servidor: %v", err)
+	if err := appInstance.Shutdown(shutdownCtx); err != nil {
+		logger.Error(ctx, "[server] Error al cerrar el servidor: %v", err)
 	}
 
-	logger.Info(ctx, "[server] Servidor cerrado correctamente ✅")
+	logger.Info(ctx, "[server] Servidor cerrado correctamente")
 }

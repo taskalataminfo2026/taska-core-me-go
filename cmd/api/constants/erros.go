@@ -1,12 +1,5 @@
 package constants
 
-// Client DB.
-const (
-	ErrGettingDatabase       = "Error obteniendo la base de datos."
-	ErrOpeningDBConnection   = "Error abriendo la conexión a la base de datos: %v."
-	OpenDBConnectionsMessage = "Conexiones abiertas: %v."
-)
-
 // Core services - Error messages
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
@@ -15,6 +8,13 @@ const (
 // Password hash
 const (
 	ErrProcessingPassword = "Error al procesar la contraseña."
+)
+
+// Client DB.
+const (
+	ErrGettingDatabase       = "Error obteniendo la base de datos."
+	ErrOpeningDBConnection   = "Error abriendo la conexión a la base de datos: %v."
+	OpenDBConnectionsMessage = "Conexiones abiertas: %v."
 )
 
 // Client JWT.
@@ -40,4 +40,30 @@ const (
 	ErrPermissionDenied  = "No tienes permisos suficientes para acceder a este recurso."
 	ErrRoleHierarchyLoad = "Error al cargar jerarquía de roles."
 	ErrTokenRevoked      = "El token ha sido revocado. Por favor inicia sesión nuevamente."
+)
+
+// Users repositories.
+const (
+	ErrorMessageErrorFindingUser       = "Error al buscar el usuario: %v."
+	ErrorMessageUserNotFoundByUserName = "No se encuentra ningún usuario con el nombre de usuario proporcionado."
+)
+
+// BlacklistedToken repositories.
+const (
+	ErrorMessageTokenNotFound     = "El token no se encuentra en la lista negra."
+	ErrorMessageErrorFindingToken = "Error al buscar el token en la lista negra."
+	ErrorMessageSavingToken       = "Error al guardar o actualizar  el token en la lista negra: %s"
+)
+
+// Users models.
+const (
+	MsgInvalidEmail         = "Correo electrónico inválido."
+	MsgPasswordLowercase    = "La contraseña debe contener al menos una letra minúscula."
+	MsgPasswordMinLength    = "La contraseña debe tener al menos 5 caracteres."
+	MsgPasswordNumber       = "La contraseña debe contener al menos un número."
+	MsgPasswordSpecialChar  = "La contraseña debe contener al menos un carácter especial."
+	MsgPasswordUppercase    = "La contraseña debe contener al menos una letra mayúscula."
+	MsgUsernameInvalidChars = "El nombre de usuario solo puede contener letras, números, guiones bajos y puntos."
+	MsgUsernameMaxLength    = "El nombre de usuario no puede tener más de 75 caracteres."
+	MsgUsernameMinLength    = "El nombre de usuario debe tener al menos 3 caracteres."
 )

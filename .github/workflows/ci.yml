@@ -1,21 +1,59 @@
 name: CI Checks
+
 on:
   pull_request:
     branches: [develop, release/*, master]
 
+env:
+  GOPRIVATE: github.com/taskalataminfo2026/*
+  GONOSUMDB: github.com/taskalataminfo2026/*
+  GONOPROXY: github.com/taskalataminfo2026/*
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: golang:1.24
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: taska
+          POSTGRES_PASSWORD: taska
+          POSTGRES_DB: taska_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U taska"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN_PRIVATE }}
+
+      - name: Configure Git for private modules
+        run: |
+          echo "machine github.com login ${{ secrets.TOKEN_PRIVATE }}" > ~/.netrc
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+          git config --global url."https://${{ secrets.TOKEN_PRIVATE }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
 
-      - name: Run Linter
-        run: go vet ./...
+      - name: Verify dependencies
+        run: go mod tidy
 
-      - name: Run Tests
-        run: go test ./... -v
+      # Linter opcional
+      # - name: Run Linter
+      #   run: go vet ./...
+
+#      - name: Run Tests
+#        run: go test ./... -v

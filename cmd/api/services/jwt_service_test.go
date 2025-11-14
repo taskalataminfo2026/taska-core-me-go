@@ -8,10 +8,10 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/config"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/constants"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/models"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/services"
+	"taska-core-me-go/cmd/api/config"
+	"taska-core-me-go/cmd/api/constants"
+	"taska-core-me-go/cmd/api/models"
+	"taska-core-me-go/cmd/api/services"
 )
 
 func TestJwtServices(t *testing.T) {
