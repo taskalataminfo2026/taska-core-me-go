@@ -1,18 +1,13 @@
-package utils
+package data_bases
 
 import (
 	"context"
 	"fmt"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"taska-core-me-go/cmd/api/config"
+	_ "modernc.org/sqlite"
 )
-
-type table struct {
-	Name  string
-	Model interface{}
-}
 
 type SQLConnection struct {
 	db *gorm.DB
@@ -21,26 +16,21 @@ type SQLConnection struct {
 func (s *SQLConnection) Connect() *gorm.DB {
 	return s.db
 }
-
-var tables = []table{
-	//{Name: "users", Model: models.UserDb{}},
-}
-
 func GetTestConnection() (*gorm.DB, error) {
-	testDBName := config.Config.DB.Name + "_test"
-	connString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
-		config.Config.DB.Host,
-		config.Config.DB.Username,
-		config.Config.DB.Password,
-		testDBName,
-		config.Config.DB.Port)
-	conn, err := gorm.Open(postgres.Open(connString), &gorm.Config{
+
+	dialector := sqlite.Dialector{
+		DriverName: "sqlite",
+		DSN:        ":memory:",
+	}
+
+	db, err := gorm.Open(dialector, &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to connect to database: %w", err)
+		return nil, fmt.Errorf("failed to connect to test database (sqlite): %w", err)
 	}
-	return conn, nil
+
+	return db, nil
 }
 
 func CreateTable(ctx context.Context, db *gorm.DB, table interface{}) {
@@ -56,5 +46,11 @@ func DropTable(ctx context.Context, db *gorm.DB, table interface{}) {
 	err := db.Migrator().DropTable(table)
 	if err != nil {
 		logger.Error(ctx, fmt.Sprintf("Error dropping table %v, %v", table, err), err)
+	}
+}
+
+func MustMigrate(db *gorm.DB, models ...any) {
+	if err := db.AutoMigrate(models...); err != nil {
+		panic(err)
 	}
 }
