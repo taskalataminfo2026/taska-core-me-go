@@ -1,10 +1,14 @@
 package constants
 
-
 // Core services - Error messages.
 
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
+)
+
+const (
+	ErrInvalidRequestFormat = "Formato de solicitud inválido: %v."
+	ErrInvalidInputData     = "Datos de entrada inválidos: %v."
 )
 
 // Password hash.
@@ -57,7 +61,7 @@ const (
 	ErrorMessageSavingToken       = "Error al guardar o actualizar  el token en la lista negra: %s"
 )
 
-// Users models.
+// Users dto.
 const (
 	MsgInvalidEmail         = "Correo electrónico inválido."
 	MsgPasswordLowercase    = "La contraseña debe contener al menos una letra minúscula."

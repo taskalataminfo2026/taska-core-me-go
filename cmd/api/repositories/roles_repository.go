@@ -41,7 +41,7 @@ func (repository *RolesRepository) FindAll(ctx context.Context) ([]models.Role, 
 	}
 
 	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFindAll, fmt.Sprintf("Consulta exitosa: %d roles encontrados", len(rolesDb)))
-	return modelsDB.ToDomainList(rolesDb), nil
+	return modelsDB.ToDomainRoles(rolesDb), nil
 }
 
 func (repository *RolesRepository) FirstBy(ctx context.Context, filter models.ParamRole) ([]models.Role, error) {
@@ -69,5 +69,5 @@ func (repository *RolesRepository) FirstBy(ctx context.Context, filter models.Pa
 	}
 
 	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFirstBy, fmt.Sprintf("Rol encontrado: %+v", rolesDb))
-	return modelsDB.ToDomainList(rolesDb), nil
+	return modelsDB.ToDomainRoles(rolesDb), nil
 }

@@ -3,14 +3,15 @@ package data_bases_test
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
-	models2 "github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/controllers/dto"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/models"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/utils"
-	"github.com/taskalataminfo2026/taska-auth-me-go/cmd/api/utils/data_bases"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"net/http"
 	"net/http/httptest"
+	models2 "taska-core-me-go/cmd/api/controllers/dto"
+	"taska-core-me-go/cmd/api/models"
+	models3 "taska-core-me-go/cmd/api/repositories/models"
+	"taska-core-me-go/cmd/api/utils"
+	"taska-core-me-go/cmd/api/utils/data_bases"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -55,9 +56,9 @@ func TestCreateTable_Ok(t *testing.T) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	assert.NoError(err, "should connect to Postgres test database")
 
-	data_bases.CreateTable(ctx, db, &models2.UserDTO{})
+	data_bases.CreateTable(ctx, db, &models3.SkillsDb{})
 
-	assert.True(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should exist")
+	assert.True(db.Migrator().HasTable(&models3.SkillsDb{}), "table 'skills' should exist")
 }
 
 func TestCreateTable_Error(t *testing.T) {
@@ -109,12 +110,11 @@ func TestDropTable_Ok(t *testing.T) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	assert.NoError(err, "should connect to Postgres test database")
 
-	data_bases.CreateTable(ctx, db, &models2.UserDTO{})
-	assert.True(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should exist")
+	data_bases.CreateTable(ctx, db, &models3.SkillsDb{})
+	assert.True(db.Migrator().HasTable(&models3.SkillsDb{}), "table 'skills' should exist")
 
-	data_bases.DropTable(ctx, db, &models2.UserDTO{})
-	assert.False(db.Migrator().HasTable(&models2.UserDTO{}), "table 'users' should not exist")
-
+	data_bases.DropTable(ctx, db, &models3.SkillsDb{})
+	assert.False(db.Migrator().HasTable(&models3.SkillsDb{}), "table 'skills' should not exist")
 }
 
 func TestDropTable_ForceError(t *testing.T) {
@@ -141,5 +141,5 @@ func TestDropTable_ForceError(t *testing.T) {
 	sqlDB, _ := db.DB()
 	sqlDB.Close()
 
-	data_bases.DropTable(ctx, db, &models2.UserDTO{})
+	data_bases.DropTable(ctx, db, &models2.ListSkillsResponseDto{})
 }

@@ -1,8 +1,6 @@
 package models
 
 import (
-	"gorm.io/gorm"
-	"strings"
 	"taska-core-me-go/cmd/api/models"
 	"time"
 )
@@ -10,67 +8,46 @@ import (
 func (SkillsDb) TableName() string { return "skills" }
 
 type ListSkillsDb struct {
-	SkillsDb SkillsDb
+	SkillsDb []SkillsDb
 }
 
 type SkillsDb struct {
-	ID          int64     `gorm:"column:id"`
-	Name        string    `gorm:"column:name"`
-	Description string    `gorm:"column:description"`
-	CreatedAt   time.Time `gorm:"type:timestamp" json:"created_at,omitempty"`
-	UpdatedAt   time.Time `gorm:"type:timestamp" json:"updated_at,omitempty"`
+	ID                   int64     `gorm:"column:id"`
+	Name                 string    `gorm:"column:name"`
+	Slug                 string    `gorm:"column:slug"`
+	Description          string    `gorm:"column:description"`
+	AvgPriceEstimate     float64   `gorm:"column:avg_price_estimate"`
+	RequiresVerification bool      `gorm:"column:requires_verification"`
+	RiskLevel            int64     `gorm:"column:risk_level"`
+	IsActive             bool      `gorm:"column:is_active"`
+	CreatedAt            time.Time `gorm:"column:created_at"`
 }
 
-func ToDomainList(skillsDb []SkillsDb) []models.Skills {
-	skills := make([]models.Skills, len(skillsDb))
-	for i, skill := range skillsDb {
-		skills[i] = skill.ToDomainModel()
+func ToDomainList(list []SkillsDb) []models.SkillsResponse {
+	skills := make([]models.SkillsResponse, 0, len(list))
+
+	for _, skill := range list {
+		skills = append(skills, skill.ToDomainModel())
 	}
 	return skills
 }
 
-func (u *SkillsDb) ToDomainModel() models.Skills {
-	return models.Skills{
-		ID:          u.ID,
-		Name:        u.Name,
-		Description: u.Description,
-		CreatedAt:   u.CreatedAt,
-		UpdatedAt:   u.UpdatedAt,
+func (s SkillsDb) ToDomainModel() models.SkillsResponse {
+	return models.SkillsResponse{
+		ID:                   s.ID,
+		Name:                 s.Name,
+		Slug:                 s.Slug,
+		Description:          s.Description,
+		AvgPriceEstimate:     s.AvgPriceEstimate,
+		RequiresVerification: s.RequiresVerification,
+		RiskLevel:            s.RiskLevel,
+		IsActive:             s.IsActive,
+		CreatedAt:            s.CreatedAt,
 	}
 }
 
-type ParamSkillsDb struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	Level int    `json:"level"`
-}
-
-func (u *ParamSkillsDb) GetQueryRoles() (string, []interface{}) {
-	query := []string{}
-	params := []interface{}{}
-
-	if u.ID > 0 {
-		query = append(query, "id = ? ")
-		params = append(params, u.ID)
-	}
-
-	if u.Name > "" {
-		query = append(query, "name = ? ")
-		params = append(params, u.Name)
-	}
-
-	return strings.Join(query, " AND "), params
-}
-
-func (db *ParamSkillsDb) ToDB(u *models.ParamRole) {
-	db.ID = u.ID
-	db.Name = u.Name
-	db.Level = u.Level
-}
-
-func (u *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
-	now := time.Now().Local()
-	u.CreatedAt = now
-	u.UpdatedAt = now
-	return nil
-}
+//func (u *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
+//	now := time.Now().Local()
+//	u.CreatedAt = now
+//	return nil
+//}

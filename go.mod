@@ -5,12 +5,12 @@ go 1.24.5
 require (
 	github.com/go-playground/validator/v10 v10.28.0
 	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.7.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/echo-swagger v1.4.1
-	github.com/taskalataminfo2026/taska-auth-me-go v0.0.0-20260117053525-858627bf6ab4
 	github.com/taskalataminfo2026/tool-kit-lib-go v1.0.41
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.43.0

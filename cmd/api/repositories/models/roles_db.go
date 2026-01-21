@@ -22,7 +22,7 @@ type RoleDb struct {
 	UpdatedAt   time.Time `gorm:"type:timestamp" json:"updated_at,omitempty"`
 }
 
-func ToDomainList(rolesDb []RoleDb) []models.Role {
+func ToDomainRoles(rolesDb []RoleDb) []models.Role {
 	roles := make([]models.Role, len(rolesDb))
 	for i, role := range rolesDb {
 		roles[i] = role.ToDomainModel()

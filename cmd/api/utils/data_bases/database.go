@@ -16,6 +16,7 @@ type SQLConnection struct {
 func (s *SQLConnection) Connect() *gorm.DB {
 	return s.db
 }
+
 func GetTestConnection() (*gorm.DB, error) {
 
 	dialector := sqlite.Dialector{
@@ -46,11 +47,5 @@ func DropTable(ctx context.Context, db *gorm.DB, table interface{}) {
 	err := db.Migrator().DropTable(table)
 	if err != nil {
 		logger.Error(ctx, fmt.Sprintf("Error dropping table %v, %v", table, err), err)
-	}
-}
-
-func MustMigrate(db *gorm.DB, models ...any) {
-	if err := db.AutoMigrate(models...); err != nil {
-		panic(err)
 	}
 }

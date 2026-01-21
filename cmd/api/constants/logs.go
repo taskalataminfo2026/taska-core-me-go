@@ -10,17 +10,18 @@ const (
 
 // Module
 const (
-	ModuleAuth             = "auth"
-	ModuleBlacklistedToken = "blacklisted_token"
-	ModuleEmail            = "email"
-	ModuleEmailBrevo       = "email_brevo"
-	ModuleJwt              = "jwt"
-	ModulePassword         = "password"
+	ModuleSkills           = "skills"
 	ModuleRoles            = "roles"
-	ModuleUser             = "user"
+	ModuleBlacklistedToken = "black_listed_token"
+	ModuleJwt              = "jwt"
 )
 
-// Function
+// Function Skills
+const (
+	FunctionSkillsList = "skills_list"
+)
+
+// Function Roles
 const (
 	FunctionFindAll              = "find_all"
 	FunctionFirstBy              = "first_by"

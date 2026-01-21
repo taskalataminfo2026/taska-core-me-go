@@ -2,8 +2,6 @@ package repositories
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/response_capture"
 	"gorm.io/gorm"
@@ -16,8 +14,8 @@ import (
 //go:generate mockgen -destination=../mocks/repositories/$GOFILE -package=mrepositories -source=./$GOFILE
 
 type ISkillsRepository interface {
-	FindAll(ctx context.Context) ([]models.Skills, error)
-	//FirstBy(ctx context.Context, users models.ParamRole) (models.Skills, error)
+	FindAll(ctx context.Context) ([]models.SkillsResponse, error)
+	//FirstBy(ctx context.Context, users dto.ParamRole) (dto.SkillsResponse, error)
 }
 
 const skillsTableName = "skills"
@@ -26,25 +24,25 @@ type SkillsRepository struct {
 	Conn *gorm.DB
 }
 
-func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.Skills, error) {
+func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.SkillsResponse, error) {
 	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFindAll, "Iniciando consulta de todos los roles")
-	var skillsDb []modelsDB.SkillsDb
+	var skillsListDb []modelsDB.SkillsDb
 
 	res := repository.Conn.
+		Debug().
 		WithContext(ctx).
 		Table(skillsTableName).
-		Find(&skillsDb)
+		Find(&skillsListDb)
 
 	if res.Error != nil {
 		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFindAll, res.Error, "Error al consultar los roles")
-		return nil, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
+		return []models.SkillsResponse{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFindAll, fmt.Sprintf("Consulta exitosa: %d roles encontrados", len(skillsDb)))
-	return modelsDB.ToDomainList(skillsDb), nil
+	return modelsDB.ToDomainList(skillsListDb), nil
 }
 
-//func (repository *SkillsRepository) FirstBy(ctx context.Context, filter models.ParamRole) (models.Skills, error) {
+//func (repository *SkillsRepository) FirstBy(ctx context.Context, filter dto.ParamRole) (dto.SkillsResponse, error) {
 //	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFindAll, fmt.Sprintf("Buscando roles con filtro: %+v", filter))
 //
 //	var skillsDb []modelsDB.SkillsDb
