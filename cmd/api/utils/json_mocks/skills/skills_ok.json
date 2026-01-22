@@ -1,0 +1,46 @@
+[
+    {
+      "id": 1,
+      "name": "Limpieza general de hogar",
+      "slug": "limpieza-general-hogar",
+      "description": "Servicio de limpieza básica en viviendas: barrido, trapeado, limpieza de superficies, cocina y baño.",
+      "avg_price_estimate": 60000,
+      "requires_verification": false,
+      "risk_level": 1,
+      "is_active": true,
+      "created_at": "2026-01-20T22:58:28-05:00"
+    },
+    {
+      "id": 2,
+      "name": "Instalación eléctrica básica",
+      "slug": "instalacion-electrica-basica",
+      "description": "Instalación de tomas, interruptores, luminarias y revisión básica de circuitos domésticos.",
+      "avg_price_estimate": 120000,
+      "requires_verification": true,
+      "risk_level": 3,
+      "is_active": true,
+      "created_at": "2026-01-20T23:44:03-05:00"
+    },
+    {
+      "id": 3,
+      "name": "Manicura semipermanente",
+      "slug": "manicura-semipermanente",
+      "description": "Aplicación de esmalte semipermanente, limpieza de cutícula y acabado profesional.",
+      "avg_price_estimate": 45000,
+      "requires_verification": false,
+      "risk_level": 1,
+      "is_active": true,
+      "created_at": "2026-01-20T23:44:37-05:00"
+    },
+    {
+      "id": 4,
+      "name": "Reparación de fugas de agua",
+      "slug": "reparacion-fugas-agua",
+      "description": "Detección y reparación de fugas en grifos, sanitarios y tuberías visibles en hogares y pequeños comercios.",
+      "avg_price_estimate": 95000,
+      "requires_verification": true,
+      "risk_level": 2,
+      "is_active": true,
+      "created_at": "2026-01-20T23:45:34-05:00"
+    }
+  ]

@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/response_capture"
@@ -36,7 +35,6 @@ func (repository *SkillsRepository) FindBy(ctx context.Context, request models.P
 	query, params := paramUserDB.GetQueryRoles()
 
 	res := repository.Conn.WithContext(ctx).
-		Debug().
 		WithContext(ctx).
 		Table(skillsTableName).
 		Where(query, params...).
@@ -45,11 +43,6 @@ func (repository *SkillsRepository) FindBy(ctx context.Context, request models.P
 		Find(&skillsDb)
 
 	if res.Error != nil {
-		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFirstBy, res.Error, "No se encontraron skills con los filtros especificados")
-			return nil, response_capture.NewErrorME(ctx, http.StatusNotFound, res.Error, constants.ErrorMessageUserNotFoundByUserName)
-		}
-
 		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleRoles, constants.FunctionFirstBy, res.Error, "Error al ejecutar la consulta de skills")
 		return nil, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
 	}

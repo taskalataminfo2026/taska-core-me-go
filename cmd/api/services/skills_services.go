@@ -6,7 +6,7 @@ import (
 	"taska-core-me-go/cmd/api/repositories"
 )
 
-//go:generate mockgen -destination=../mocks/controllers/$GOFILE -package=mcontrollers -source=./$GOFILE
+//go:generate mockgen -destination=../mocks/services/$GOFILE -package=mservices -source=./$GOFILE
 
 type ISkillsServices interface {
 	SkillsSearch(ctx context.Context, request models.ParamsSkillsSearch) ([]models.SkillsResponse, error)
