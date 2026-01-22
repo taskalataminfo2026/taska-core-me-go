@@ -13,6 +13,7 @@ import (
 
 func ProviderRouter(
 	skillsController *controllers.SkillsController,
+	taskerController *controllers.TaskerController,
 ) *echo.Echo {
 	router := echo.New()
 	logger, _ := zap.NewProduction()
@@ -59,10 +60,14 @@ func ProviderRouter(
 
 	core := router.Group("/v1/api/core")
 	{
-		// Verificación de cuenta (User).
+		// Verificación de cuenta (Skills).
 		skills := core.Group("/skills")
 		skills.GET("/search", skillsController.SkillsSearch)
 		skills.GET("/List", skillsController.SkillsList)
+
+		// Verificación de cuenta (Tasker).
+		tasker := core.Group("/tasker")
+		tasker.GET("/{id_user}/skills", taskerController.TaskerProfile)
 	}
 
 	return router

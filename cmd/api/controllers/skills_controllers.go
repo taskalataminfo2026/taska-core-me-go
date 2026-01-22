@@ -19,6 +19,7 @@ import (
 type ISkillsController interface {
 	SkillsSearch(c echo.Context) error
 	SkillsList(c echo.Context) error
+	SkillsProfile(c echo.Context) error
 }
 
 type SkillsController struct {
@@ -26,30 +27,38 @@ type SkillsController struct {
 	Validator      validator.IValidator
 }
 
-// SkillsSearch Busquedad de habilidades.
-// @Summary Busquedad de habilidades
-// @Description Permite buscar las habilidades del usuario.
-// @Tags Auth
+// SkillsSearch Busqueda de habilidades.
+// @Summary Busqueda de habilidades
+// @Description Permite buscar habilidades activas del marketplace
+// @Tags Skills
 // @Accept json
 // @Produce json
-// @Param request body dto.LoginRequestDTO true "Autentica al usuario"
-// @Success 200 {object} dto.LoginResponseDTO "Inicio de sesión exitoso"
+// @Param q query string false "Texto de búsqueda"
+// @Param category_id query int false "Categoría"
+// @Param limit query int false "Límite"
+// @Param offset query int false "Offset"
+// @Success 200 {object} dto.ListSkillsResponseDto
 // @Router /v1/api/core/skills/search [get]
 func (controller *SkillsController) SkillsSearch(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
 	var (
-		entity dto.SkillsRequestDto
+		entity dto.ParamsSkillsSearchDto
 		dto    dto.SkillsResponseDto
 		data   []models.SkillsResponse
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Iniciando proceso de login",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Busqueda de habilidades",
 		zap.String("endpoint", "/v1/api/core/skills/search"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
 	)
+
+	err = entity.BindSkillsSearchFilter(c)
+	if err != nil {
+		return response_capture.RespondError(c, err)
+	}
 
 	err = utils.BindAndValidate(c, controller.Validator, &entity)
 	if err != nil {
@@ -66,13 +75,13 @@ func (controller *SkillsController) SkillsSearch(c echo.Context) error {
 	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.FromModel(data))
 }
 
-// SkillsList lista de habilidades.
-// @Summary Inicio de sesión
-// @Description Inicia sesión con credenciales válidas y genera tokens de acceso y actualización.
-// @Tags Auth
+// SkillsList lista de habilidades del marketplace.
+// @Summary Listar habilidades
+// @Description Devuelve un listado paginado de habilidades activas disponibles en el marketplace. Permite alimentar búsqueda, filtros y matching de taskers.
+// @Tags Skills
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.LoginResponseDTO "Inicio de sesión exitoso"
+// @Success 200 {object} dto.ListSkillsResponseDto "Listado de habilidades"
 // @Router /v1/api/core/skills/list [get]
 func (controller *SkillsController) SkillsList(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
@@ -83,7 +92,7 @@ func (controller *SkillsController) SkillsList(c echo.Context) error {
 		err  error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Iniciando proceso de login",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Listar habilidades",
 		zap.String("endpoint", "/v1/api/core/skills/list"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -91,6 +100,51 @@ func (controller *SkillsController) SkillsList(c echo.Context) error {
 
 	logger.Info(ctx, "Initializing")
 	data, err = controller.SkillsServices.SkillsList(ctx)
+	if err != nil {
+		return response_capture.RespondError(c, err)
+	}
+
+	logger.Info(ctx, "Finalized")
+	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.FromModel(data))
+}
+
+// SkillsProfile obtiene las habilidades de un tasker.
+// @Summary Habilidades de un tasker
+// @Description Devuelve las habilidades activas asociadas a un tasker, incluyendo nivel, verificación y métricas. Endpoint base para perfil público y matching.
+// @Tags Skills
+// @Accept json
+// @Produce json
+// @Param id_user path int true "ID del tasker"
+// @Success 200 {object} dto.ListSkillsResponseDto
+// @Router /v1/api/core/skills/taskers/{id_user} [get]
+func (controller *SkillsController) SkillsProfile(c echo.Context) error {
+	ctx := utils.CreateRequestContext(c)
+
+	var (
+		entity dto.ParamsSkillsSearchDto
+		dto    dto.SkillsResponseDto
+		data   []models.SkillsResponse
+		err    error
+	)
+
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Busqueda de habilidades",
+		zap.String("endpoint", "/v1/api/core/skills/profile/{id_user}"),
+		zap.String("method", c.Request().Method),
+		zap.String("ip", c.RealIP()),
+	)
+
+	err = entity.BindSkillsSearchFilter(c)
+	if err != nil {
+		return response_capture.RespondError(c, err)
+	}
+
+	err = utils.BindAndValidate(c, controller.Validator, &entity)
+	if err != nil {
+		return response_capture.RespondError(c, err)
+	}
+
+	logger.Info(ctx, "Initializing")
+	data, err = controller.SkillsServices.SkillsSearch(ctx, entity.ToModel())
 	if err != nil {
 		return response_capture.RespondError(c, err)
 	}

@@ -29,6 +29,8 @@ var ClientSet = wire.NewSet(
 var ControllerRouterSet = wire.NewSet(
 	providers.SkillsController,
 	wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)),
+	providers.TaskerController,
+	wire.Bind(new(controllers.ITaskerController), new(*controllers.TaskerController)),
 )
 
 // 🔹 Services
@@ -37,6 +39,8 @@ var ServicesRouterSet = wire.NewSet(
 	wire.Bind(new(services.IJWTServices), new(*services.JwtServices)),
 	providers.SkillsServices,
 	wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)),
+	providers.TaskerServices,
+	wire.Bind(new(services.ITaskerServices), new(*services.TaskerServices)),
 )
 
 // 🔹 Repositories

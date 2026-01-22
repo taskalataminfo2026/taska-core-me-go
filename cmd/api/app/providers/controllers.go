@@ -9,3 +9,7 @@ import (
 func SkillsController(ss services.ISkillsServices, validator validator.IValidator) *controllers.SkillsController {
 	return &controllers.SkillsController{SkillsServices: ss, Validator: validator}
 }
+
+func TaskerController(ts services.ITaskerServices, validator validator.IValidator) *controllers.TaskerController {
+	return &controllers.TaskerController{TaskerServices: ts, Validator: validator}
+}

@@ -21,12 +21,13 @@ type SkillsResponse struct {
 	CreatedAt            time.Time
 }
 
-type SkillsRequest struct {
-	ID                   int64   `json:"id"`
-	Name                 string  `json:"name"`
-	Slug                 string  `json:"slug"`
-	AvgPriceEstimate     float64 `json:"avg_price_estimate"`
-	RequiresVerification bool    `json:"requires_verification"`
-	RiskLevel            int64   `json:"risk_level"`
-	IsActive             bool    `json:"is_active"`
+type ParamsSkillsSearch struct {
+	ID                   int64
+	Slug                 string
+	AvgPriceEstimate     float64
+	RequiresVerification bool
+	RiskLevel            int64
+	IsActive             bool
+	Limit                int
+	Offset               int
 }

@@ -12,3 +12,7 @@ func JwtService() *services.JwtServices {
 func SkillsServices(sr repositories.ISkillsRepository) *services.SkillsServices {
 	return &services.SkillsServices{SkillsRepository: sr}
 }
+
+func TaskerServices(sr repositories.ISkillsRepository) *services.TaskerServices {
+	return &services.TaskerServices{SkillsRepository: sr}
+}

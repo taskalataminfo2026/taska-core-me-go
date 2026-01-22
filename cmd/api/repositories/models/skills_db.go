@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strings"
 	"taska-core-me-go/cmd/api/models"
 	"time"
 )
@@ -46,8 +47,57 @@ func (s SkillsDb) ToDomainModel() models.SkillsResponse {
 	}
 }
 
-//func (u *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
-//	now := time.Now().Local()
-//	u.CreatedAt = now
-//	return nil
-//}
+type ParamsSkillsSearchDb struct {
+	ID                   int64
+	Slug                 string
+	AvgPriceEstimate     float64
+	RequiresVerification bool
+	RiskLevel            int64
+	IsActive             bool
+}
+
+func (u *ParamsSkillsSearchDb) GetQueryRoles() (string, []interface{}) {
+	query := []string{}
+	params := []interface{}{}
+
+	if u.ID > 0 {
+		query = append(query, "id = ? ")
+		params = append(params, u.ID)
+	}
+
+	if u.Slug > "" {
+		query = append(query, "slug = ? ")
+		params = append(params, u.Slug)
+	}
+
+	if u.AvgPriceEstimate > 0 {
+		query = append(query, "avg_price_estimate = ? ")
+		params = append(params, u.AvgPriceEstimate)
+	}
+
+	if u.RequiresVerification == true {
+		query = append(query, "requires_verification = ? ")
+		params = append(params, u.RequiresVerification)
+	}
+
+	if u.RiskLevel > 0 {
+		query = append(query, "risk_level = ? ")
+		params = append(params, u.RiskLevel)
+	}
+
+	if u.IsActive == true {
+		query = append(query, "is_active = ? ")
+		params = append(params, u.IsActive)
+	}
+
+	return strings.Join(query, " AND "), params
+}
+
+func (db *ParamsSkillsSearchDb) ToDB(u *models.ParamsSkillsSearch) {
+	db.ID = u.ID
+	db.Slug = u.Slug
+	db.AvgPriceEstimate = u.AvgPriceEstimate
+	db.RequiresVerification = u.RequiresVerification
+	db.RiskLevel = u.RiskLevel
+	db.IsActive = u.IsActive
+}
