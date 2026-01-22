@@ -72,7 +72,6 @@ var RouterSet = wire.NewSet(
 // 🔹 Start app
 func Start() (*echo.Echo, error) {
 	panic(wire.Build(
-		ClientSet,
 		DatabaseSet,
 		RouterSet,
 	))
