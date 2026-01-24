@@ -18,7 +18,10 @@ const (
 
 // Function Skills
 const (
-	FunctionSkillsList = "skills_list"
+	FunctionSkillsSearch = "skills_search"
+	FunctionSkillsList   = "skills_list"
+	FunctionSkillsSave   = "skills_save"
+	FunctionSkillsUpdate = "skills_update"
 )
 
 // Function Roles

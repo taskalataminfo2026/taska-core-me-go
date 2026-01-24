@@ -19,6 +19,7 @@ type Skills struct {
 	RiskLevel            int64
 	IsActive             bool
 	CreatedAt            time.Time
+	UpdatedAt            time.Time
 }
 
 type ParamsSkillsSearch struct {
@@ -30,4 +31,14 @@ type ParamsSkillsSearch struct {
 	IsActive             bool
 	Limit                int
 	Offset               int
+}
+
+type ParamsSkillsSave struct {
+	Name                 string
+	Slug                 string
+	Description          string
+	AvgPriceEstimate     float64
+	RequiresVerification bool
+	RiskLevel            int64
+	IsActive             bool
 }

@@ -62,8 +62,10 @@ func ProviderRouter(
 	{
 		// Verificación de cuenta (Skills).
 		skills := core.Group("/skills")
-		skills.GET("/search", skillsController.SkillsSearch)
-		skills.GET("/List", skillsController.SkillsList)
+		skills.GET("/search", skillsController.Search)
+		skills.GET("/List", skillsController.List)
+		skills.POST("/save", skillsController.Save)
+		skills.PUT("/:id", skillsController.Update)
 
 		// Verificación de cuenta (Tasker).
 		tasker := core.Group("/tasker")

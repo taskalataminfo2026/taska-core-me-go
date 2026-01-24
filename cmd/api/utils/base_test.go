@@ -55,7 +55,7 @@ func TestBindAndValidate(t *testing.T) {
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 
-		dto := new(dto2.SkillsResponseDto)
+		dto := new(dto2.SkillsDto)
 		mockValidator := mvalidator.NewMockIValidator(ctrl)
 
 		mockValidator.EXPECT().Validate(gomock.Any()).Return(nil)
@@ -73,7 +73,7 @@ func TestBindAndValidate(t *testing.T) {
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 
-		dto := new(dto2.SkillsResponseDto)
+		dto := new(dto2.SkillsDto)
 
 		// No se usa validator porque Bind falla antes
 		err := utils.BindAndValidate(c, nil, dto)
@@ -103,7 +103,7 @@ func TestBindAndValidate(t *testing.T) {
 		rec := httptest.NewRecorder()
 		c := e.NewContext(req, rec)
 
-		dto := new(dto2.SkillsResponseDto)
+		dto := new(dto2.SkillsDto)
 		mockValidator := mvalidator.NewMockIValidator(ctrl)
 
 		// Simulamos error de validación

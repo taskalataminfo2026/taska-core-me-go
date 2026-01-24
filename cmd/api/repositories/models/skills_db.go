@@ -25,6 +25,7 @@ type SkillsDb struct {
 	RiskLevel            int64     `gorm:"column:risk_level"`
 	IsActive             bool      `gorm:"column:is_active"`
 	CreatedAt            time.Time `gorm:"column:created_at"`
+	UpdatedAt            time.Time `gorm:"column:updated_at"`
 }
 
 func ToDomainList(list []SkillsDb) []models.Skills {
@@ -46,6 +47,7 @@ func (s *SkillsDb) ToDomainModel() models.Skills {
 		RiskLevel:            s.RiskLevel,
 		IsActive:             s.IsActive,
 		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
 	}
 }
 
@@ -59,6 +61,7 @@ func (db *SkillsDb) Load(m models.Skills) {
 	db.RiskLevel = m.RiskLevel
 	db.IsActive = m.IsActive
 	db.CreatedAt = m.CreatedAt
+	db.UpdatedAt = m.UpdatedAt
 }
 
 type ParamsSkillsSearchDb struct {
@@ -119,5 +122,6 @@ func (p *ParamsSkillsSearchDb) ToDB(u *models.ParamsSkillsSearch) {
 func (s *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
 	now := time.Now().Local()
 	s.CreatedAt = now
+	s.UpdatedAt = now
 	return nil
 }

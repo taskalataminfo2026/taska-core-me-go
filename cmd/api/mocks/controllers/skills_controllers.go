@@ -34,44 +34,58 @@ func (m *MockISkillsController) EXPECT() *MockISkillsControllerMockRecorder {
 	return m.recorder
 }
 
-// SkillsList mocks base method.
-func (m *MockISkillsController) SkillsList(c echo.Context) error {
+// List mocks base method.
+func (m *MockISkillsController) List(c echo.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SkillsList", c)
+	ret := m.ctrl.Call(m, "List", c)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SkillsList indicates an expected call of SkillsList.
-func (mr *MockISkillsControllerMockRecorder) SkillsList(c interface{}) *gomock.Call {
+// List indicates an expected call of List.
+func (mr *MockISkillsControllerMockRecorder) List(c interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SkillsList", reflect.TypeOf((*MockISkillsController)(nil).SkillsList), c)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockISkillsController)(nil).List), c)
 }
 
-// SkillsProfile mocks base method.
-func (m *MockISkillsController) SkillsProfile(c echo.Context) error {
+// Save mocks base method.
+func (m *MockISkillsController) Save(c echo.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SkillsProfile", c)
+	ret := m.ctrl.Call(m, "Save", c)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SkillsProfile indicates an expected call of SkillsProfile.
-func (mr *MockISkillsControllerMockRecorder) SkillsProfile(c interface{}) *gomock.Call {
+// Save indicates an expected call of Save.
+func (mr *MockISkillsControllerMockRecorder) Save(c interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SkillsProfile", reflect.TypeOf((*MockISkillsController)(nil).SkillsProfile), c)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockISkillsController)(nil).Save), c)
 }
 
-// SkillsSearch mocks base method.
-func (m *MockISkillsController) SkillsSearch(c echo.Context) error {
+// Search mocks base method.
+func (m *MockISkillsController) Search(c echo.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SkillsSearch", c)
+	ret := m.ctrl.Call(m, "Search", c)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// SkillsSearch indicates an expected call of SkillsSearch.
-func (mr *MockISkillsControllerMockRecorder) SkillsSearch(c interface{}) *gomock.Call {
+// Search indicates an expected call of Search.
+func (mr *MockISkillsControllerMockRecorder) Search(c interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SkillsSearch", reflect.TypeOf((*MockISkillsController)(nil).SkillsSearch), c)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Search", reflect.TypeOf((*MockISkillsController)(nil).Search), c)
+}
+
+// Update mocks base method.
+func (m *MockISkillsController) Update(c echo.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", c)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockISkillsControllerMockRecorder) Update(c interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockISkillsController)(nil).Update), c)
 }

@@ -35,32 +35,62 @@ func (m *MockISkillsServices) EXPECT() *MockISkillsServicesMockRecorder {
 	return m.recorder
 }
 
-// SkillsList mocks base method.
-func (m *MockISkillsServices) SkillsList(ctx context.Context) ([]models.Skills, error) {
+// List mocks base method.
+func (m *MockISkillsServices) List(ctx context.Context) ([]models.Skills, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SkillsList", ctx)
+	ret := m.ctrl.Call(m, "List", ctx)
 	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SkillsList indicates an expected call of SkillsList.
-func (mr *MockISkillsServicesMockRecorder) SkillsList(ctx interface{}) *gomock.Call {
+// List indicates an expected call of List.
+func (mr *MockISkillsServicesMockRecorder) List(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SkillsList", reflect.TypeOf((*MockISkillsServices)(nil).SkillsList), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockISkillsServices)(nil).List), ctx)
 }
 
-// SkillsSearch mocks base method.
-func (m *MockISkillsServices) SkillsSearch(ctx context.Context, request models.ParamsSkillsSearch) ([]models.Skills, error) {
+// Save mocks base method.
+func (m *MockISkillsServices) Save(ctx context.Context, request models.ParamsSkillsSave) (models.Skills, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SkillsSearch", ctx, request)
+	ret := m.ctrl.Call(m, "Save", ctx, request)
+	ret0, _ := ret[0].(models.Skills)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Save indicates an expected call of Save.
+func (mr *MockISkillsServicesMockRecorder) Save(ctx, request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockISkillsServices)(nil).Save), ctx, request)
+}
+
+// Search mocks base method.
+func (m *MockISkillsServices) Search(ctx context.Context, request models.ParamsSkillsSearch) ([]models.Skills, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Search", ctx, request)
 	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SkillsSearch indicates an expected call of SkillsSearch.
-func (mr *MockISkillsServicesMockRecorder) SkillsSearch(ctx, request interface{}) *gomock.Call {
+// Search indicates an expected call of Search.
+func (mr *MockISkillsServicesMockRecorder) Search(ctx, request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SkillsSearch", reflect.TypeOf((*MockISkillsServices)(nil).SkillsSearch), ctx, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Search", reflect.TypeOf((*MockISkillsServices)(nil).Search), ctx, request)
+}
+
+// Update mocks base method.
+func (m *MockISkillsServices) Update(ctx context.Context, id int64, request models.ParamsSkillsSave) (models.Skills, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, id, request)
+	ret0, _ := ret[0].(models.Skills)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockISkillsServicesMockRecorder) Update(ctx, id, request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockISkillsServices)(nil).Update), ctx, id, request)
 }
