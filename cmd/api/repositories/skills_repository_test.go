@@ -55,7 +55,7 @@ func Test_FindAll(t *testing.T) {
 	repository := &repositories.SkillsRepository{Conn: conn}
 	header := utils.GetTestRequestWithHeaders()
 	ctx := utils.CreateRequest(header)
-	
+
 	t.Run("Ok", func(t *testing.T) {
 		data_bases.CreateTable(ctx, conn, modelsDb.SkillsDb{})
 
@@ -81,9 +81,63 @@ func Test_FindAll(t *testing.T) {
 
 }
 
+func Test_Upsert(t *testing.T) {
+	assert := assert.New(t)
+
+	conn, err := data_bases.GetTestConnection()
+	assert.NoError(err)
+
+	repository := &repositories.SkillsRepository{Conn: conn}
+	header := utils.GetTestRequestWithHeaders()
+	ctx := utils.CreateRequest(header)
+
+	request := GetUpsert()
+	t.Run("Save_Ok", func(t *testing.T) {
+		data_bases.CreateTable(ctx, conn, modelsDb.SkillsDb{})
+
+		skillsDb := modelsDb.SkillsDb{
+			ID:   1,
+			Name: "test",
+		}
+		repository.Conn.Create(&skillsDb)
+
+		result, err := repository.Upsert(ctx, request)
+		assert.NoError(err)
+		assert.Equal(int64(1), result.ID)
+		data_bases.DropTable(ctx, conn, []modelsDb.SkillsDb{})
+	})
+
+	t.Run("Update_Ok", func(t *testing.T) {
+		data_bases.CreateTable(ctx, conn, modelsDb.SkillsDb{})
+
+		skillsDb := modelsDb.SkillsDb{}
+		repository.Conn.Create(&skillsDb)
+
+		result, err := repository.Upsert(ctx, request)
+		assert.NoError(err)
+		assert.Equal(int64(1), result.ID)
+		data_bases.DropTable(ctx, conn, []modelsDb.SkillsDb{})
+	})
+
+	t.Run("Error", func(t *testing.T) {
+		data_bases.DropTable(ctx, conn, []modelsDb.SkillsDb{})
+
+		_, err = repository.Upsert(ctx, request)
+		assert.Error(err)
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+	})
+
+}
+
 func GetParamsSkillsSearch() models.ParamsSkillsSearch {
 	return models.ParamsSkillsSearch{
 		ID:    1,
 		Limit: 1,
+	}
+}
+
+func GetUpsert() models.Skills {
+	return models.Skills{
+		ID: 1,
 	}
 }

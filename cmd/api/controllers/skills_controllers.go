@@ -45,7 +45,7 @@ func (controller *SkillsController) SkillsSearch(c echo.Context) error {
 	var (
 		entity dto.ParamsSkillsSearchDto
 		dto    dto.SkillsResponseDto
-		data   []models.SkillsResponse
+		data   []models.Skills
 		err    error
 	)
 
@@ -88,7 +88,7 @@ func (controller *SkillsController) SkillsList(c echo.Context) error {
 
 	var (
 		dto  dto.SkillsResponseDto
-		data []models.SkillsResponse
+		data []models.Skills
 		err  error
 	)
 

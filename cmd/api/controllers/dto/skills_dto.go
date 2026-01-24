@@ -19,7 +19,7 @@ type SkillsResponseDto struct {
 	CreatedAt            time.Time `json:"created_at"`
 }
 
-func (s *SkillsResponseDto) FromModel(modelsList []models.SkillsResponse) []SkillsResponseDto {
+func (s *SkillsResponseDto) FromModel(modelsList []models.Skills) []SkillsResponseDto {
 	items := make([]SkillsResponseDto, 0, len(modelsList))
 
 	for _, skill := range modelsList {
@@ -29,7 +29,7 @@ func (s *SkillsResponseDto) FromModel(modelsList []models.SkillsResponse) []Skil
 	return items
 }
 
-func SkillToDto(s models.SkillsResponse) SkillsResponseDto {
+func SkillToDto(s models.Skills) SkillsResponseDto {
 	return SkillsResponseDto{
 		ID:                   s.ID,
 		Name:                 s.Name,

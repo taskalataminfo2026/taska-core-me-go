@@ -101,8 +101,8 @@ func getParamsSkillsSearch() models.ParamsSkillsSearch {
 	}
 }
 
-func getSkillsResponse() []models.SkillsResponse {
-	return []models.SkillsResponse{
+func getSkillsResponse() []models.Skills {
+	return []models.Skills{
 		{
 			ID: 1,
 		},

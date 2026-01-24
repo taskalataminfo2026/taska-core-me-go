@@ -36,10 +36,10 @@ func (m *MockISkillsRepository) EXPECT() *MockISkillsRepositoryMockRecorder {
 }
 
 // FindAll mocks base method.
-func (m *MockISkillsRepository) FindAll(ctx context.Context) ([]models.SkillsResponse, error) {
+func (m *MockISkillsRepository) FindAll(ctx context.Context) ([]models.Skills, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAll", ctx)
-	ret0, _ := ret[0].([]models.SkillsResponse)
+	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,10 +51,10 @@ func (mr *MockISkillsRepositoryMockRecorder) FindAll(ctx interface{}) *gomock.Ca
 }
 
 // FindBy mocks base method.
-func (m *MockISkillsRepository) FindBy(ctx context.Context, request models.ParamsSkillsSearch) ([]models.SkillsResponse, error) {
+func (m *MockISkillsRepository) FindBy(ctx context.Context, request models.ParamsSkillsSearch) ([]models.Skills, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindBy", ctx, request)
-	ret0, _ := ret[0].([]models.SkillsResponse)
+	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -63,4 +63,19 @@ func (m *MockISkillsRepository) FindBy(ctx context.Context, request models.Param
 func (mr *MockISkillsRepositoryMockRecorder) FindBy(ctx, request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindBy", reflect.TypeOf((*MockISkillsRepository)(nil).FindBy), ctx, request)
+}
+
+// Upsert mocks base method.
+func (m *MockISkillsRepository) Upsert(ctx context.Context, request models.Skills) (models.Skills, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Upsert", ctx, request)
+	ret0, _ := ret[0].(models.Skills)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Upsert indicates an expected call of Upsert.
+func (mr *MockISkillsRepositoryMockRecorder) Upsert(ctx, request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upsert", reflect.TypeOf((*MockISkillsRepository)(nil).Upsert), ctx, request)
 }

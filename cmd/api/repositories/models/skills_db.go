@@ -1,12 +1,15 @@
 package models
 
 import (
+	"gorm.io/gorm"
 	"strings"
 	"taska-core-me-go/cmd/api/models"
 	"time"
 )
 
-func (SkillsDb) TableName() string { return "skills" }
+func (*SkillsDb) TableName() string {
+	return "skills"
+}
 
 type ListSkillsDb struct {
 	SkillsDb []SkillsDb
@@ -24,17 +27,16 @@ type SkillsDb struct {
 	CreatedAt            time.Time `gorm:"column:created_at"`
 }
 
-func ToDomainList(list []SkillsDb) []models.SkillsResponse {
-	skills := make([]models.SkillsResponse, 0, len(list))
-
-	for _, skill := range list {
-		skills = append(skills, skill.ToDomainModel())
+func ToDomainList(list []SkillsDb) []models.Skills {
+	result := make([]models.Skills, 0, len(list))
+	for i := range list {
+		result = append(result, list[i].ToDomainModel())
 	}
-	return skills
+	return result
 }
 
-func (s SkillsDb) ToDomainModel() models.SkillsResponse {
-	return models.SkillsResponse{
+func (s *SkillsDb) ToDomainModel() models.Skills {
+	return models.Skills{
 		ID:                   s.ID,
 		Name:                 s.Name,
 		Slug:                 s.Slug,
@@ -47,6 +49,18 @@ func (s SkillsDb) ToDomainModel() models.SkillsResponse {
 	}
 }
 
+func (db *SkillsDb) Load(m models.Skills) {
+	db.ID = m.ID
+	db.Name = m.Name
+	db.Slug = m.Slug
+	db.Description = m.Description
+	db.AvgPriceEstimate = m.AvgPriceEstimate
+	db.RequiresVerification = m.RequiresVerification
+	db.RiskLevel = m.RiskLevel
+	db.IsActive = m.IsActive
+	db.CreatedAt = m.CreatedAt
+}
+
 type ParamsSkillsSearchDb struct {
 	ID                   int64
 	Slug                 string
@@ -56,48 +70,54 @@ type ParamsSkillsSearchDb struct {
 	IsActive             bool
 }
 
-func (u *ParamsSkillsSearchDb) GetQueryRoles() (string, []interface{}) {
+func (p *ParamsSkillsSearchDb) GetQueryRoles() (string, []interface{}) {
 	query := []string{}
 	params := []interface{}{}
 
-	if u.ID > 0 {
+	if p.ID > 0 {
 		query = append(query, "id = ? ")
-		params = append(params, u.ID)
+		params = append(params, p.ID)
 	}
 
-	if u.Slug > "" {
+	if p.Slug > "" {
 		query = append(query, "slug = ? ")
-		params = append(params, u.Slug)
+		params = append(params, p.Slug)
 	}
 
-	if u.AvgPriceEstimate > 0 {
+	if p.AvgPriceEstimate > 0 {
 		query = append(query, "avg_price_estimate = ? ")
-		params = append(params, u.AvgPriceEstimate)
+		params = append(params, p.AvgPriceEstimate)
 	}
 
-	if u.RequiresVerification == true {
+	if p.RequiresVerification == true {
 		query = append(query, "requires_verification = ? ")
-		params = append(params, u.RequiresVerification)
+		params = append(params, p.RequiresVerification)
 	}
 
-	if u.RiskLevel > 0 {
+	if p.RiskLevel > 0 {
 		query = append(query, "risk_level = ? ")
-		params = append(params, u.RiskLevel)
+		params = append(params, p.RiskLevel)
 	}
 
-	if u.IsActive == true {
+	if p.IsActive == true {
 		query = append(query, "is_active = ? ")
-		params = append(params, u.IsActive)
+		params = append(params, p.IsActive)
 	}
 
 	return strings.Join(query, " AND "), params
 }
 
-func (db *ParamsSkillsSearchDb) ToDB(u *models.ParamsSkillsSearch) {
-	db.ID = u.ID
-	db.Slug = u.Slug
-	db.AvgPriceEstimate = u.AvgPriceEstimate
-	db.RequiresVerification = u.RequiresVerification
-	db.RiskLevel = u.RiskLevel
-	db.IsActive = u.IsActive
+func (p *ParamsSkillsSearchDb) ToDB(u *models.ParamsSkillsSearch) {
+	p.ID = u.ID
+	p.Slug = u.Slug
+	p.AvgPriceEstimate = u.AvgPriceEstimate
+	p.RequiresVerification = u.RequiresVerification
+	p.RiskLevel = u.RiskLevel
+	p.IsActive = u.IsActive
+}
+
+func (s *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
+	now := time.Now().Local()
+	s.CreatedAt = now
+	return nil
 }

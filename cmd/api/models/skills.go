@@ -5,11 +5,11 @@ import (
 )
 
 type ListSkillsResponse struct {
-	Items []SkillsResponse
+	Items []Skills
 	Total int
 }
 
-type SkillsResponse struct {
+type Skills struct {
 	ID                   int64
 	Name                 string
 	Slug                 string

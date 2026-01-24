@@ -36,10 +36,10 @@ func (m *MockISkillsServices) EXPECT() *MockISkillsServicesMockRecorder {
 }
 
 // SkillsList mocks base method.
-func (m *MockISkillsServices) SkillsList(ctx context.Context) ([]models.SkillsResponse, error) {
+func (m *MockISkillsServices) SkillsList(ctx context.Context) ([]models.Skills, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SkillsList", ctx)
-	ret0, _ := ret[0].([]models.SkillsResponse)
+	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,10 +51,10 @@ func (mr *MockISkillsServicesMockRecorder) SkillsList(ctx interface{}) *gomock.C
 }
 
 // SkillsSearch mocks base method.
-func (m *MockISkillsServices) SkillsSearch(ctx context.Context, request models.ParamsSkillsSearch) ([]models.SkillsResponse, error) {
+func (m *MockISkillsServices) SkillsSearch(ctx context.Context, request models.ParamsSkillsSearch) ([]models.Skills, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SkillsSearch", ctx, request)
-	ret0, _ := ret[0].([]models.SkillsResponse)
+	ret0, _ := ret[0].([]models.Skills)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

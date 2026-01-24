@@ -33,4 +33,5 @@ const (
 	FunctionFirstByToken         = "first_by_token"
 	FunctionFirstByTokenNil      = "first_by_token_nil"
 	FunctionSave                 = "save"
+	FunctionUpsert               = "upsert"
 )

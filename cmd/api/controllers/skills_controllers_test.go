@@ -44,7 +44,7 @@ func TestAuthService_SkillsSearch(t *testing.T) {
 		reqBody, err := json.Marshal(entity)
 		assert.NoError(err, "No se pudo serializar el cuerpo de la solicitud")
 
-		expectedResponse := []models.SkillsResponse{}
+		expectedResponse := []models.Skills{}
 		err = json.Unmarshal(json_mocks.GetJSONFile("skills", "skills_ok.json"), &expectedResponse)
 		assert.Nil(err)
 
@@ -68,7 +68,7 @@ func TestAuthService_SkillsSearch(t *testing.T) {
 		reqBody, err := json.Marshal(entity)
 		assert.NoError(err, "No se pudo serializar el cuerpo de la solicitud")
 
-		expectedResponse := []models.SkillsResponse{}
+		expectedResponse := []models.Skills{}
 		err = json.Unmarshal(json_mocks.GetJSONFile("skills", "skills_ok.json"), &expectedResponse)
 		assert.Nil(err)
 
@@ -108,7 +108,7 @@ func TestAuthService_SkillsSearch(t *testing.T) {
 		reqBody, err := json.Marshal(entity)
 		assert.NoError(err, "No se pudo serializar el cuerpo de la solicitud")
 
-		expectedResponse := []models.SkillsResponse{}
+		expectedResponse := []models.Skills{}
 		err = json.Unmarshal(json_mocks.GetJSONFile("skills", "skills_ok.json"), &expectedResponse)
 		assert.Nil(err)
 
@@ -149,7 +149,7 @@ func TestAuthService_SkillsList(t *testing.T) {
 		reqBody, err := json.Marshal(entity)
 		assert.NoError(err, "No se pudo serializar el cuerpo de la solicitud")
 
-		expectedResponse := []models.SkillsResponse{}
+		expectedResponse := []models.Skills{}
 		err = json.Unmarshal(json_mocks.GetJSONFile("skills", "skills_ok.json"), &expectedResponse)
 		assert.Nil(err)
 
@@ -171,7 +171,7 @@ func TestAuthService_SkillsList(t *testing.T) {
 		reqBody, err := json.Marshal(entity)
 		assert.NoError(err, "No se pudo serializar el cuerpo de la solicitud")
 
-		expectedResponse := []models.SkillsResponse{}
+		expectedResponse := []models.Skills{}
 		err = json.Unmarshal(json_mocks.GetJSONFile("skills", "skills_ok.json"), &expectedResponse)
 		assert.Nil(err)
 
