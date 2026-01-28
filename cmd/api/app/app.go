@@ -27,6 +27,8 @@ var ClientSet = wire.NewSet(
 
 // 🔹 Controllers
 var ControllerRouterSet = wire.NewSet(
+	providers.CategoriesController,
+	wire.Bind(new(controllers.ICategoriesController), new(*controllers.CategoriesController)),
 	providers.SkillsController,
 	wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)),
 	providers.TaskerController,
@@ -37,6 +39,8 @@ var ControllerRouterSet = wire.NewSet(
 var ServicesRouterSet = wire.NewSet(
 	providers.JwtService,
 	wire.Bind(new(services.IJWTServices), new(*services.JwtServices)),
+	providers.CategoriesServices,
+	wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)),
 	providers.SkillsServices,
 	wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)),
 	providers.TaskerServices,
@@ -45,6 +49,8 @@ var ServicesRouterSet = wire.NewSet(
 
 // 🔹 Repositories
 var RepositoryRouterSet = wire.NewSet(
+	providers.CategoriesRepository,
+	wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)),
 	providers.RolesTokenRepository,
 	wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)),
 	providers.BlacklistedTokenRepository,

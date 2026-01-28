@@ -25,13 +25,16 @@ func Start() (*echo.Echo, error) {
 	if err != nil {
 		return nil, err
 	}
+	categoriesRepository := providers.CategoriesRepository(db)
+	categoriesServices := providers.CategoriesServices(categoriesRepository)
+	validator := providers.Validator()
+	categoriesController := providers.CategoriesController(categoriesServices, validator)
 	skillsRepository := providers.SkillsRepository(db)
 	skillsServices := providers.SkillsServices(skillsRepository)
-	validator := providers.Validator()
 	skillsController := providers.SkillsController(skillsServices, validator)
 	taskerServices := providers.TaskerServices(skillsRepository)
 	taskerController := providers.TaskerController(taskerServices, validator)
-	echoEcho := providers.ProviderRouter(skillsController, taskerController)
+	echoEcho := providers.ProviderRouter(categoriesController, skillsController, taskerController)
 	return echoEcho, nil
 }
 
@@ -44,13 +47,13 @@ var DatabaseSet = wire.NewSet(providers.DatabaseConnectionPostgres)
 var ClientSet = wire.NewSet(providers.GetRustyClient, wire.Bind(new(rusty.IRustyClient), new(*rusty.RustyClient)))
 
 // 🔹 Controllers
-var ControllerRouterSet = wire.NewSet(providers.SkillsController, wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)), providers.TaskerController, wire.Bind(new(controllers.ITaskerController), new(*controllers.TaskerController)))
+var ControllerRouterSet = wire.NewSet(providers.CategoriesController, wire.Bind(new(controllers.ICategoriesController), new(*controllers.CategoriesController)), providers.SkillsController, wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)), providers.TaskerController, wire.Bind(new(controllers.ITaskerController), new(*controllers.TaskerController)))
 
 // 🔹 Services
-var ServicesRouterSet = wire.NewSet(providers.JwtService, wire.Bind(new(services.IJWTServices), new(*services.JwtServices)), providers.SkillsServices, wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)), providers.TaskerServices, wire.Bind(new(services.ITaskerServices), new(*services.TaskerServices)))
+var ServicesRouterSet = wire.NewSet(providers.JwtService, wire.Bind(new(services.IJWTServices), new(*services.JwtServices)), providers.CategoriesServices, wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)), providers.SkillsServices, wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)), providers.TaskerServices, wire.Bind(new(services.ITaskerServices), new(*services.TaskerServices)))
 
 // 🔹 Repositories
-var RepositoryRouterSet = wire.NewSet(providers.RolesTokenRepository, wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)), providers.BlacklistedTokenRepository, wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)), providers.SkillsRepository, wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)))
+var RepositoryRouterSet = wire.NewSet(providers.CategoriesRepository, wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)), providers.RolesTokenRepository, wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)), providers.BlacklistedTokenRepository, wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)), providers.SkillsRepository, wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)))
 
 // 🔹 Validators
 var ValidatorRouterSet = wire.NewSet(providers.Validator, wire.Bind(new(validator.IValidator), new(*validator.Validator)))

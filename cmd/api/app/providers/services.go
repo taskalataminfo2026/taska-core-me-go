@@ -9,6 +9,10 @@ func JwtService() *services.JwtServices {
 	return &services.JwtServices{}
 }
 
+func CategoriesServices(cr repositories.ICategoriesRepository) *services.CategoriesServices {
+	return &services.CategoriesServices{CategoriesRepository: cr}
+}
+
 func SkillsServices(sr repositories.ISkillsRepository) *services.SkillsServices {
 	return &services.SkillsServices{SkillsRepository: sr}
 }

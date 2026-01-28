@@ -12,6 +12,7 @@ import (
 )
 
 func ProviderRouter(
+	categoriesController *controllers.CategoriesController,
 	skillsController *controllers.SkillsController,
 	taskerController *controllers.TaskerController,
 ) *echo.Echo {
@@ -66,6 +67,12 @@ func ProviderRouter(
 		skills.GET("/List", skillsController.List)
 		skills.POST("/save", skillsController.Save)
 		skills.PUT("/:id", skillsController.Update)
+
+		category := core.Group("/category")
+		category.GET("/search", skillsController.Search)
+		category.GET("/List", categoriesController.List)
+		category.POST("/save", skillsController.Save)
+		category.PUT("/:id", skillsController.Update)
 
 		// Verificación de cuenta (Tasker).
 		tasker := core.Group("/tasker")

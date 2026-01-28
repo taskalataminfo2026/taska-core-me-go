@@ -10,6 +10,7 @@ const (
 
 // Module
 const (
+	ModuleCategories       = "categories "
 	ModuleSkills           = "skills"
 	ModuleRoles            = "roles"
 	ModuleBlacklistedToken = "black_listed_token"
@@ -22,6 +23,14 @@ const (
 	FunctionSkillsList   = "skills_list"
 	FunctionSkillsSave   = "skills_save"
 	FunctionSkillsUpdate = "skills_update"
+)
+
+// Function Categories
+const (
+	FunctionCategorySearch = "Category_search"
+	FunctionCategoryList   = "Category_list"
+	FunctionCategorySave   = "Category_save"
+	FunctionCategoryUpdate = "skills_update"
 )
 
 // Function Roles

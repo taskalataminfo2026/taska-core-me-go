@@ -52,17 +52,17 @@ func (s *SkillsDb) ToDomainModel() models.Skills {
 	}
 }
 
-func (db *SkillsDb) Load(m models.Skills) {
-	db.ID = m.ID
-	db.Name = m.Name
-	db.Slug = m.Slug
-	db.Description = m.Description
-	db.AvgPriceEstimate = m.AvgPriceEstimate
-	db.RequiresVerification = m.RequiresVerification
-	db.RiskLevel = m.RiskLevel
-	db.IsActive = m.IsActive
-	db.CreatedAt = m.CreatedAt
-	db.UpdatedAt = m.UpdatedAt
+func (s *SkillsDb) Load(m models.Skills) {
+	s.ID = m.ID
+	s.Name = m.Name
+	s.Slug = m.Slug
+	s.Description = m.Description
+	s.AvgPriceEstimate = m.AvgPriceEstimate
+	s.RequiresVerification = m.RequiresVerification
+	s.RiskLevel = m.RiskLevel
+	s.IsActive = m.IsActive
+	s.CreatedAt = m.CreatedAt
+	s.UpdatedAt = m.UpdatedAt
 }
 
 type ParamsSkillsSearchDb struct {

@@ -5,6 +5,10 @@ import (
 	"taska-core-me-go/cmd/api/repositories"
 )
 
+func CategoriesRepository(conn *gorm.DB) *repositories.CategoriesRepository {
+	return &repositories.CategoriesRepository{Conn: conn}
+}
+
 func RolesTokenRepository(conn *gorm.DB) *repositories.RolesRepository {
 	return &repositories.RolesRepository{Conn: conn}
 }

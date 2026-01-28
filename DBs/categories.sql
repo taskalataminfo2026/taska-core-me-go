@@ -8,5 +8,6 @@ create table categories (
     icon varchar(255),                                          -- Ícono representativo para UI
     is_active boolean not null default true,                    -- Mercado habilitado o cerrado
     sort_order int default 0,                                   -- Prioridad estratégica en listados
-    created_at timestamp default now()                          -- Fecha de creación (cohortes y madurez)
+    created_at timestamp(0),                                    -- Fecha de creación (cohortes y madurez)
+    updated_at timestamp(0),                                    -- Fecha de actualización (cohortes y madurez)
 );
