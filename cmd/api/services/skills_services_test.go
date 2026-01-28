@@ -179,6 +179,8 @@ func TestSkillsServices_Update(t *testing.T) {
 
 	t.Run("Ok", func(t *testing.T) {
 
+		mockISkillsRepository.EXPECT().FirstBy(gomock.Any(), models.ParamsSkillsSearch{ID: id}).Return(response, nil)
+
 		skills := models.Skills{
 			ID:                   id,
 			Name:                 request.Name,
@@ -197,7 +199,17 @@ func TestSkillsServices_Update(t *testing.T) {
 		assert.Equal(response.ID, int64(1))
 	})
 
-	t.Run("Error", func(t *testing.T) {
+	t.Run("Error_FirstBy", func(t *testing.T) {
+
+		mockISkillsRepository.EXPECT().FirstBy(gomock.Any(), models.ParamsSkillsSearch{ID: id}).Return(response, testError)
+
+		_, err := testServices.Update(ctx, id, request)
+		assert.Error(err)
+	})
+
+	t.Run("Error_FUpsert", func(t *testing.T) {
+
+		mockISkillsRepository.EXPECT().FirstBy(gomock.Any(), models.ParamsSkillsSearch{ID: id}).Return(response, nil)
 
 		skills := models.Skills{
 			ID:                   id,

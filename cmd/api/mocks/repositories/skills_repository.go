@@ -65,6 +65,21 @@ func (mr *MockISkillsRepositoryMockRecorder) FindBy(ctx, request interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindBy", reflect.TypeOf((*MockISkillsRepository)(nil).FindBy), ctx, request)
 }
 
+// FirstBy mocks base method.
+func (m *MockISkillsRepository) FirstBy(ctx context.Context, request models.ParamsSkillsSearch) (models.Skills, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FirstBy", ctx, request)
+	ret0, _ := ret[0].(models.Skills)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FirstBy indicates an expected call of FirstBy.
+func (mr *MockISkillsRepositoryMockRecorder) FirstBy(ctx, request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FirstBy", reflect.TypeOf((*MockISkillsRepository)(nil).FirstBy), ctx, request)
+}
+
 // Upsert mocks base method.
 func (m *MockISkillsRepository) Upsert(ctx context.Context, request models.Skills) (models.Skills, error) {
 	m.ctrl.T.Helper()

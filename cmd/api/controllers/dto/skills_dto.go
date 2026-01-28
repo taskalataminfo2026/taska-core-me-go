@@ -21,6 +21,7 @@ type SkillsDto struct {
 	RiskLevel            int64     `json:"risk_level"`
 	IsActive             bool      `json:"is_active"`
 	CreatedAt            time.Time `json:"created_at"`
+	UpdatedAt            time.Time `json:"updated_at"`
 }
 
 func (s *SkillsDto) FromModel(modelsList []models.Skills) []SkillsDto {
@@ -44,6 +45,7 @@ func SkillToDto(s models.Skills) SkillsDto {
 		RiskLevel:            s.RiskLevel,
 		IsActive:             s.IsActive,
 		CreatedAt:            s.CreatedAt,
+		UpdatedAt:            s.UpdatedAt,
 	}
 }
 

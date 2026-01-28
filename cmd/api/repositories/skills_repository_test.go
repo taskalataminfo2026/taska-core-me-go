@@ -81,6 +81,52 @@ func Test_FindAll(t *testing.T) {
 
 }
 
+func Test_FirstBy(t *testing.T) {
+	assert := assert.New(t)
+
+	conn, err := data_bases.GetTestConnection()
+	assert.NoError(err)
+
+	repository := &repositories.SkillsRepository{Conn: conn}
+	header := utils.GetTestRequestWithHeaders()
+	ctx := utils.CreateRequest(header)
+
+	request := GetParamsSkillsSearch()
+	t.Run("Ok", func(t *testing.T) {
+		data_bases.CreateTable(ctx, conn, modelsDb.SkillsDb{})
+
+		skillsDb := modelsDb.SkillsDb{
+			ID:   1,
+			Name: "test",
+		}
+		repository.Conn.Create(&skillsDb)
+
+		result, err := repository.FirstBy(ctx, request)
+		assert.NoError(err)
+		assert.Equal(int64(1), result.ID)
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+	})
+
+	t.Run("Error", func(t *testing.T) {
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+
+		_, err = repository.FirstBy(ctx, request)
+		assert.Error(err)
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+	})
+
+	t.Run("ErrRecordNotFound", func(t *testing.T) {
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+		data_bases.CreateTable(ctx, conn, modelsDb.SkillsDb{})
+
+		user, err := repository.FirstBy(ctx, request)
+		assert.Error(err)
+		assert.Equal(int64(0), user.ID)
+		data_bases.DropTable(ctx, conn, modelsDb.SkillsDb{})
+	})
+
+}
+
 func Test_Upsert(t *testing.T) {
 	assert := assert.New(t)
 

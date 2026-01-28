@@ -1,10 +1,11 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"strings"
 	"taska-core-me-go/cmd/api/models"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func (*SkillsDb) TableName() string {
@@ -121,7 +122,18 @@ func (p *ParamsSkillsSearchDb) ToDB(u *models.ParamsSkillsSearch) {
 
 func (s *SkillsDb) BeforeCreate(tx *gorm.DB) (err error) {
 	now := time.Now().Local()
-	s.CreatedAt = now
+	if s.CreatedAt.IsZero() {
+		s.CreatedAt = now
+	}
+	s.UpdatedAt = now
+	return nil
+}
+
+func (s *SkillsDb) BeforeSave(tx *gorm.DB) (err error) {
+	now := time.Now().Local()
+	if s.CreatedAt.IsZero() {
+		s.CreatedAt = now
+	}
 	s.UpdatedAt = now
 	return nil
 }
