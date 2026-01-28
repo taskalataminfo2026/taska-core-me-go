@@ -49,10 +49,10 @@ func (repository *SkillsRepository) FindBy(ctx context.Context, request models.P
 
 	if res.Error != nil {
 		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, "Error al ejecutar la consulta de skills")
-		return nil, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
+		return nil, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, fmt.Sprintf(constants.ErrorMessageErrorFindingSkills, request.ID))
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf("Skills encontrado: %+v", skillsDb))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
 	return modelsDB.ToDomainList(skillsDb), nil
 }
 
@@ -61,7 +61,6 @@ func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.Skill
 	var skillsListDb []modelsDB.SkillsDb
 
 	res := repository.Conn.
-		Debug().
 		WithContext(ctx).
 		Table(skillsTableName).
 		Find(&skillsListDb)
@@ -91,14 +90,14 @@ func (repository *SkillsRepository) FirstBy(ctx context.Context, request models.
 
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, "Skills no encontrado por filtros")
+			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, constants.LogSkillsNotFoundByFilters)
 			return models.Skills{}, response_capture.NewErrorME(ctx, http.StatusNotFound, res.Error, constants.ErrorMessageUserNotFoundByUserName)
 		}
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, "Error al ejecutar la consulta de skills")
-		return models.Skills{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, constants.ErrSkillsQueryExecution)
+		return models.Skills{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, fmt.Sprintf(constants.ErrorMessageErrorFindingUser, request.ID))
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf("Skills encontrado: %+v", skillsDb))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
 	return skillsDb.ToDomainModel(), nil
 }
 
@@ -110,7 +109,7 @@ func (repository *SkillsRepository) Upsert(ctx context.Context, request models.S
 	)
 
 	entity.Load(request)
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, fmt.Sprintf("Guardando o actualizando skill: %+v", request))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, fmt.Sprintf(constants.LogSkillUpsert, request))
 
 	tx := repository.Conn.WithContext(ctx).Begin()
 
@@ -122,11 +121,11 @@ func (repository *SkillsRepository) Upsert(ctx context.Context, request models.S
 
 	if err != nil {
 		tx.Rollback()
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, err, "Error guardando el skill", zap.Any("body", entity))
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, err, constants.ErrSkillSave, zap.Any("body", entity))
 		return entity.ToDomainModel(), response_capture.NewErrorME(ctx, http.StatusBadRequest, err, fmt.Sprintf(constants.ErrorMessageSavingToken, err.Error()))
 	}
 
 	tx.Commit()
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, "skill guardado correctamente", zap.Int64("skill_id", entity.ID))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, constants.MsgSkillSavedSuccessfully, zap.Int64("skill_id", entity.ID))
 	return entity.ToDomainModel(), nil
 }
