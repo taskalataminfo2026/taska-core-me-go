@@ -22,8 +22,8 @@ type ISkillsCategoriesController interface {
 }
 
 type SkillsCategoriesController struct {
-	CategoriesServices services.ICategoriesServices
-	Validator          validator.IValidator
+	SkillsCategoriesServices services.ISkillsCategoriesServices
+	Validator                validator.IValidator
 }
 
 // Save guarda una categoría del marketplace.
@@ -38,8 +38,8 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
 	var (
-		entity dto.ParamsCategorySaveDto
-		data   models.Category
+		entity dto.ParamsSkillsCategorySaveDto
+		data   models.SkillCategory
 		err    error
 	)
 
@@ -55,13 +55,13 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 	}
 
 	logger.Info(ctx, "Initializing")
-	data, err = controller.CategoriesServices.Save(ctx, entity.ToModel())
+	data, err = controller.SkillsCategoriesServices.Save(ctx, entity.ToModel())
 	if err != nil {
 		return response_capture.RespondError(c, err)
 	}
 
 	logger.Info(ctx, "Finalized")
-	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.CategoryToDto(data))
+	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.SkillCategoryToDto(data))
 }
 
 // Update actualiza una categoría del marketplace.
@@ -78,9 +78,9 @@ func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
 	var (
-		entity dto.ParamsCategorySaveDto
-		path   dto.ParamsCategoryRequestDTO
-		data   models.Category
+		entity dto.ParamsSkillsCategorySaveDto
+		path   dto.ParamsSkillsCategoryRequestDTO
+		data   models.SkillCategory
 		err    error
 	)
 
@@ -102,11 +102,11 @@ func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 	}
 
 	logger.Info(ctx, "Initializing")
-	data, err = controller.CategoriesServices.Update(ctx, path.ID, entity.ToModel())
+	data, err = controller.SkillsCategoriesServices.Update(ctx, path.ID, entity.ToModel())
 	if err != nil {
 		return response_capture.RespondError(c, err)
 	}
 
 	logger.Info(ctx, "Finalized")
-	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.CategoryToDto(data))
+	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.SkillCategoryToDto(data))
 }

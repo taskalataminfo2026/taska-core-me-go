@@ -17,6 +17,10 @@ func BlacklistedTokenRepository(conn *gorm.DB) *repositories.BlacklistedTokenRep
 	return &repositories.BlacklistedTokenRepository{Conn: conn}
 }
 
+func SkillsCategoriesRepository(conn *gorm.DB) *repositories.SkillsCategoriesRepository {
+	return &repositories.SkillsCategoriesRepository{Conn: conn}
+}
+
 func SkillsRepository(conn *gorm.DB) *repositories.SkillsRepository {
 	return &repositories.SkillsRepository{Conn: conn}
 }

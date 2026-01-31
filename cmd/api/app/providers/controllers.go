@@ -10,6 +10,10 @@ func CategoriesController(cs services.ICategoriesServices, validator validator.I
 	return &controllers.CategoriesController{CategoriesServices: cs, Validator: validator}
 }
 
+func SkillsCategoriesController(scs services.ISkillsCategoriesServices, validator validator.IValidator) *controllers.SkillsCategoriesController {
+	return &controllers.SkillsCategoriesController{SkillsCategoriesServices: scs, Validator: validator}
+}
+
 func SkillsController(ss services.ISkillsServices, validator validator.IValidator) *controllers.SkillsController {
 	return &controllers.SkillsController{SkillsServices: ss, Validator: validator}
 }
