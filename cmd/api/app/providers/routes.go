@@ -12,6 +12,7 @@ import (
 )
 
 func ProviderRouter(
+	skillsCategoriesController *controllers.SkillsCategoriesController,
 	categoriesController *controllers.CategoriesController,
 	skillsController *controllers.SkillsController,
 	taskerController *controllers.TaskerController,
@@ -61,7 +62,11 @@ func ProviderRouter(
 
 	core := router.Group("/v1/api/core")
 	{
-		// Verificación de cuenta (Skills).
+
+		skillsCategories := core.Group("/skills-categories")
+		skillsCategories.POST("/save", skillsCategoriesController.Save)
+		skillsCategories.PUT("/:id", skillsCategoriesController.Update)
+
 		skills := core.Group("/skills")
 		skills.GET("/search", skillsController.Search)
 		skills.GET("/List", skillsController.List)
