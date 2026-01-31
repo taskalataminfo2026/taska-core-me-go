@@ -64,14 +64,16 @@ func (s *CategoryDb) Load(m models.Category) {
 }
 
 type ParamsCategorySearchDb struct {
-	ID                   int64
-	Slug                 string
-	AvgPriceEstimate     float64
-	RequiresVerification bool
-	RiskLevel            int64
-	IsActive             bool
-	Limit                int
-	Offset               int
+	ID        int64
+	RootID    int64
+	ParentID  int64
+	Name      string
+	Slug      string
+	Icon      string
+	IsActive  bool
+	SortOrder int
+	Limit     int
+	Offset    int
 }
 
 func (p *ParamsCategorySearchDb) GetQueryRoles() (string, []interface{}) {
@@ -83,24 +85,29 @@ func (p *ParamsCategorySearchDb) GetQueryRoles() (string, []interface{}) {
 		params = append(params, p.ID)
 	}
 
+	if p.RootID > 0 {
+		query = append(query, "root_id = ? ")
+		params = append(params, p.RootID)
+	}
+
+	if p.ParentID > 0 {
+		query = append(query, "parent_id = ? ")
+		params = append(params, p.ParentID)
+	}
+
+	if p.Name > "" {
+		query = append(query, "name = ? ")
+		params = append(params, p.Name)
+	}
+
 	if p.Slug > "" {
 		query = append(query, "slug = ? ")
 		params = append(params, p.Slug)
 	}
 
-	if p.AvgPriceEstimate > 0 {
-		query = append(query, "avg_price_estimate = ? ")
-		params = append(params, p.AvgPriceEstimate)
-	}
-
-	if p.RequiresVerification == true {
-		query = append(query, "requires_verification = ? ")
-		params = append(params, p.RequiresVerification)
-	}
-
-	if p.RiskLevel > 0 {
-		query = append(query, "risk_level = ? ")
-		params = append(params, p.RiskLevel)
+	if p.Icon > "" {
+		query = append(query, "icon = ? ")
+		params = append(params, p.Icon)
 	}
 
 	if p.IsActive == true {
@@ -108,16 +115,25 @@ func (p *ParamsCategorySearchDb) GetQueryRoles() (string, []interface{}) {
 		params = append(params, p.IsActive)
 	}
 
+	if p.SortOrder > 0 {
+		query = append(query, "sort_order = ? ")
+		params = append(params, p.SortOrder)
+	}
+
 	return strings.Join(query, " AND "), params
 }
 
-func (p *ParamsCategorySearchDb) ToDB(u *models.ParamsCategorysSearch) {
+func (p *ParamsCategorySearchDb) ToDB(u *models.ParamsCategorySearch) {
 	p.ID = u.ID
+	p.RootID = u.RootID
+	p.ParentID = u.ParentID
+	p.Name = u.Name
 	p.Slug = u.Slug
-	p.AvgPriceEstimate = u.AvgPriceEstimate
-	p.RequiresVerification = u.RequiresVerification
-	p.RiskLevel = u.RiskLevel
+	p.Icon = u.Icon
 	p.IsActive = u.IsActive
+	p.SortOrder = u.SortOrder
+	p.Limit = u.Limit
+	p.Offset = u.Offset
 }
 
 func (c *CategoryDb) BeforeCreate(tx *gorm.DB) (err error) {

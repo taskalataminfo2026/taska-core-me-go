@@ -18,9 +18,9 @@ import (
 //go:generate mockgen -destination=../mocks/repositories/$GOFILE -package=mrepositories -source=./$GOFILE
 
 type ICategoriesRepository interface {
-	FindBy(ctx context.Context, request models.ParamsCategorysSearch) ([]models.Category, error)
+	FindBy(ctx context.Context, request models.ParamsCategorySearch) ([]models.Category, error)
 	FindAll(ctx context.Context) ([]models.Category, error)
-	FirstBy(ctx context.Context, request models.ParamsCategorysSearch) (models.Category, error)
+	FirstBy(ctx context.Context, request models.ParamsCategorySearch) (models.Category, error)
 	Upsert(ctx context.Context, request models.Category) (models.Category, error)
 }
 
@@ -30,7 +30,7 @@ type CategoriesRepository struct {
 	Conn *gorm.DB
 }
 
-func (repository *CategoriesRepository) FindBy(ctx context.Context, request models.ParamsCategorysSearch) ([]models.Category, error) {
+func (repository *CategoriesRepository) FindBy(ctx context.Context, request models.ParamsCategorySearch) ([]models.Category, error) {
 	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFindAll, fmt.Sprintf("Buscando categoria con filtro: %+v", request))
 
 	var categoryDb []modelsDB.CategoryDb
@@ -74,7 +74,7 @@ func (repository *CategoriesRepository) FindAll(ctx context.Context) ([]models.C
 	return modelsDB.ToDomainCategory(categoryListDb), nil
 }
 
-func (repository *CategoriesRepository) FirstBy(ctx context.Context, request models.ParamsCategorysSearch) (models.Category, error) {
+func (repository *CategoriesRepository) FirstBy(ctx context.Context, request models.ParamsCategorySearch) (models.Category, error) {
 	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFindAll, fmt.Sprintf("Buscando skill con filtro: %+v", request))
 
 	var skillsDb modelsDB.CategoryDb

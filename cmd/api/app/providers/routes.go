@@ -69,10 +69,10 @@ func ProviderRouter(
 		skills.PUT("/:id", skillsController.Update)
 
 		category := core.Group("/category")
-		category.GET("/search", skillsController.Search)
+		category.GET("/search", categoriesController.Search)
 		category.GET("/List", categoriesController.List)
-		category.POST("/save", skillsController.Save)
-		category.PUT("/:id", skillsController.Update)
+		category.POST("/save", categoriesController.Save)
+		category.PUT("/:id", categoriesController.Update)
 
 		// Verificación de cuenta (Tasker).
 		tasker := core.Group("/tasker")

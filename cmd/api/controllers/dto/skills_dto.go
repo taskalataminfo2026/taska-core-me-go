@@ -110,6 +110,7 @@ func (p *ParamsSkillsSearchDto) ToModel() models.ParamsSkillsSearch {
 		RiskLevel:            p.RiskLevel,
 		IsActive:             p.IsActive,
 		Limit:                p.Limit,
+		Offset:               p.Offset,
 	}
 }
 

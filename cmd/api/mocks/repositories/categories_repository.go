@@ -51,7 +51,7 @@ func (mr *MockICategoriesRepositoryMockRecorder) FindAll(ctx interface{}) *gomoc
 }
 
 // FindBy mocks base method.
-func (m *MockICategoriesRepository) FindBy(ctx context.Context, request models.ParamsCategorysSearch) ([]models.Category, error) {
+func (m *MockICategoriesRepository) FindBy(ctx context.Context, request models.ParamsCategorySearch) ([]models.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindBy", ctx, request)
 	ret0, _ := ret[0].([]models.Category)
@@ -66,7 +66,7 @@ func (mr *MockICategoriesRepositoryMockRecorder) FindBy(ctx, request interface{}
 }
 
 // FirstBy mocks base method.
-func (m *MockICategoriesRepository) FirstBy(ctx context.Context, request models.ParamsCategorysSearch) (models.Category, error) {
+func (m *MockICategoriesRepository) FirstBy(ctx context.Context, request models.ParamsCategorySearch) (models.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FirstBy", ctx, request)
 	ret0, _ := ret[0].(models.Category)
@@ -81,10 +81,10 @@ func (mr *MockICategoriesRepositoryMockRecorder) FirstBy(ctx, request interface{
 }
 
 // Upsert mocks base method.
-func (m *MockICategoriesRepository) Upsert(ctx context.Context, request models.Skills) (models.Skills, error) {
+func (m *MockICategoriesRepository) Upsert(ctx context.Context, request models.Category) (models.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Upsert", ctx, request)
-	ret0, _ := ret[0].(models.Skills)
+	ret0, _ := ret[0].(models.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
