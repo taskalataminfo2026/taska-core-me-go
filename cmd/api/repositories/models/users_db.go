@@ -8,7 +8,9 @@ import (
 	"time"
 )
 
-func (UserDb) TableName() string { return "users" }
+func (*UserDb) TableName() string {
+	return "users"
+}
 
 type UserDb struct {
 	ID                   int64           `gorm:"column:id"`

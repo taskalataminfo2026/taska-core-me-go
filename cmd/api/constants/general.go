@@ -12,3 +12,7 @@ const (
 	TypeUserAdmin      = "admin"
 	TypeUserSuperAdmin = "superadmin"
 )
+
+const (
+	StatusOk = "OK"
+)

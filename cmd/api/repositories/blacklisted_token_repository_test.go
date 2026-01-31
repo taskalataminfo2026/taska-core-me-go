@@ -6,6 +6,7 @@ import (
 	"taska-core-me-go/cmd/api/repositories"
 	"taska-core-me-go/cmd/api/repositories/models"
 	"taska-core-me-go/cmd/api/utils"
+	"taska-core-me-go/cmd/api/utils/data_bases"
 	"testing"
 	"time"
 )
@@ -13,7 +14,7 @@ import (
 func TestBlacklistedTokenRepository_FindByToken(t *testing.T) {
 	assert := assert.New(t)
 
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.BlacklistedTokenRepository{Conn: conn}
@@ -22,8 +23,8 @@ func TestBlacklistedTokenRepository_FindByToken(t *testing.T) {
 
 	token := "token-test"
 	t.Run("Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb := models.BlacklistedTokenDb{
 			ID:        1,
@@ -36,26 +37,26 @@ func TestBlacklistedTokenRepository_FindByToken(t *testing.T) {
 		user, err := repository.FirstByToken(ctx, token)
 		assert.NoError(err)
 		assert.Equal(int64(1), user.ID)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb, err := repository.FirstByToken(ctx, token)
 		assert.Error(err)
 		assert.Equal(int64(0), blacklistedTokenDb.ID)
-		utils.DropTable(ctx, conn, models.UserDb{})
+		data_bases.DropTable(ctx, conn, models.UserDb{})
 	})
 
 	t.Run("ErrRecordNotFound", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb, err := repository.FirstByToken(ctx, token)
 		assert.Error(err)
 		assert.Equal(int64(0), blacklistedTokenDb.ID)
-		utils.DropTable(ctx, conn, models.UserDb{})
+		data_bases.DropTable(ctx, conn, models.UserDb{})
 	})
 
 }
@@ -63,7 +64,7 @@ func TestBlacklistedTokenRepository_FindByToken(t *testing.T) {
 func TestBlacklistedTokenRepository_FindByTokenNil(t *testing.T) {
 	assert := assert.New(t)
 
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.BlacklistedTokenRepository{Conn: conn}
@@ -73,8 +74,8 @@ func TestBlacklistedTokenRepository_FindByTokenNil(t *testing.T) {
 	token := "token-test"
 
 	t.Run("Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb := models.BlacklistedTokenDb{
 			ID:        1,
@@ -87,26 +88,26 @@ func TestBlacklistedTokenRepository_FindByTokenNil(t *testing.T) {
 		user, err := repository.FirstByTokenNil(ctx, token)
 		assert.NoError(err)
 		assert.Equal(int64(1), user.ID)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb, err := repository.FirstByTokenNil(ctx, token)
 		assert.Error(err)
 		assert.Equal(int64(0), blacklistedTokenDb.ID)
-		utils.DropTable(ctx, conn, models.UserDb{})
+		data_bases.DropTable(ctx, conn, models.UserDb{})
 	})
 
 	t.Run("ErrRecordNotFound", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		blacklistedTokenDb, err := repository.FirstByTokenNil(ctx, token)
 		assert.Nil(err)
 		assert.Equal(int64(0), blacklistedTokenDb.ID)
-		utils.DropTable(ctx, conn, models.UserDb{})
+		data_bases.DropTable(ctx, conn, models.UserDb{})
 	})
 
 }
@@ -114,7 +115,7 @@ func TestBlacklistedTokenRepository_FindByTokenNil(t *testing.T) {
 func TestBlacklistedTokenRepository_DeleteExpired(t *testing.T) {
 	assert := assert.New(t)
 
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.BlacklistedTokenRepository{Conn: conn}
@@ -124,8 +125,8 @@ func TestBlacklistedTokenRepository_DeleteExpired(t *testing.T) {
 	token := "token-test"
 	before := time.Time{}
 	t.Run("Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		createBlacklistedTokenDb := models.BlacklistedTokenDb{
 			ID:        1,
@@ -138,16 +139,16 @@ func TestBlacklistedTokenRepository_DeleteExpired(t *testing.T) {
 		rowsAffected, err := repository.DeleteExpired(ctx, before)
 		assert.NoError(err)
 		assert.Equal(int64(0), rowsAffected)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		rowsAffected, err := repository.DeleteExpired(ctx, before)
 		assert.Error(err)
 		assert.Equal(int64(0), rowsAffected)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 }
@@ -155,7 +156,7 @@ func TestBlacklistedTokenRepository_DeleteExpired(t *testing.T) {
 func TestBlacklistedTokenRepository_Save(t *testing.T) {
 	assert := assert.New(t)
 
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.BlacklistedTokenRepository{Conn: conn}
@@ -164,8 +165,8 @@ func TestBlacklistedTokenRepository_Save(t *testing.T) {
 
 	token := "token-test"
 	t.Run("Save_Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		createBlacklistedTokenDb := models.BlacklistedTokenDb{
 			ID:        1,
@@ -184,12 +185,12 @@ func TestBlacklistedTokenRepository_Save(t *testing.T) {
 		user, err := repository.Save(ctx, requestBlacklistedTokenDb)
 		assert.NoError(err)
 		assert.Equal(int64(1), user.ID)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 	t.Run("Create_Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
-		utils.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.CreateTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		createBlacklistedTokenDb := models.BlacklistedTokenDb{
 			UserID:    1,
@@ -214,11 +215,11 @@ func TestBlacklistedTokenRepository_Save(t *testing.T) {
 		user, err := repository.Save(ctx, requestBlacklistedTokenDb)
 		assert.NoError(err)
 		assert.Equal(int64(2), user.ID)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 
 		requestBlacklistedTokenDb := models2.BlacklistedToken{
 			UserID:    1,
@@ -228,7 +229,7 @@ func TestBlacklistedTokenRepository_Save(t *testing.T) {
 		user, err := repository.Save(ctx, requestBlacklistedTokenDb)
 		assert.Error(err)
 		assert.Equal(int64(0), user.ID)
-		utils.DropTable(ctx, conn, models.BlacklistedTokenDb{})
+		data_bases.DropTable(ctx, conn, models.BlacklistedTokenDb{})
 	})
 
 }

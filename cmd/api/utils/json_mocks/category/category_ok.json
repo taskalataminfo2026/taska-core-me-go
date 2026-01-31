@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "root_id": 0,
+    "parent_id": 0,
+    "name": "hogar y mantenimiento",
+    "slug": "hogar-mantenimiento",
+    "description": "Servicios relacionados con el hogar y mantenimiento general",
+    "icon": "home",
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "root_id": 0,
+    "parent_id": 0,
+    "name": "tecnología",
+    "slug": "tecnologia",
+    "description": "Servicios relacionados con tecnología e instalaciones",
+    "icon": "tech",
+    "is_active": true,
+    "sort_order": 2,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 3,
+    "root_id": 1,
+    "parent_id": 1,
+    "name": "plomería",
+    "slug": "plomeria",
+    "description": "Servicios de plomería y fontanería",
+    "icon": "plumbing",
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-01-15T10:00:00Z"
+  }
+]

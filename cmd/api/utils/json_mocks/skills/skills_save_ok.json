@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "name": "instalación de televisores",
+  "slug": "instalacion-televisores",
+  "description": "Montaje e instalación de televisores en pared o soporte, configuración básica incluida",
+  "avg_price_estimate": 60000,
+  "requires_verification": true,
+  "risk_level": 2,
+  "is_active": true,
+  "created_at": "2026-01-24T00:04:39.578148-05:00",
+  "updated_at": "2026-01-24T00:04:39.578148-05:00"
+}

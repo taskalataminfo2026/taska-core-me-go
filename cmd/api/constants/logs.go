@@ -10,17 +10,30 @@ const (
 
 // Module
 const (
-	ModuleAuth             = "auth"
-	ModuleBlacklistedToken = "blacklisted_token"
-	ModuleEmail            = "email"
-	ModuleEmailBrevo       = "email_brevo"
-	ModuleJwt              = "jwt"
-	ModulePassword         = "password"
+	ModuleCategories       = "categories "
+	ModuleSkills           = "skills"
 	ModuleRoles            = "roles"
-	ModuleUser             = "user"
+	ModuleBlacklistedToken = "black_listed_token"
+	ModuleJwt              = "jwt"
 )
 
-// Function
+// Function Skills
+const (
+	FunctionSkillsSearch = "skills_search"
+	FunctionSkillsList   = "skills_list"
+	FunctionSkillsSave   = "skills_save"
+	FunctionSkillsUpdate = "skills_update"
+)
+
+// Function Categories
+const (
+	FunctionCategorySearch = "Category_search"
+	FunctionCategoryList   = "Category_list"
+	FunctionCategorySave   = "Category_save"
+	FunctionCategoryUpdate = "skills_update"
+)
+
+// Function Roles
 const (
 	FunctionFindAll              = "find_all"
 	FunctionFirstBy              = "first_by"
@@ -32,4 +45,5 @@ const (
 	FunctionFirstByToken         = "first_by_token"
 	FunctionFirstByTokenNil      = "first_by_token_nil"
 	FunctionSave                 = "save"
+	FunctionUpsert               = "upsert"
 )

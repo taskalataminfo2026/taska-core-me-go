@@ -2,6 +2,7 @@ package repositories_test
 
 import (
 	"github.com/stretchr/testify/assert"
+	"taska-core-me-go/cmd/api/utils/data_bases"
 	"testing"
 
 	models2 "taska-core-me-go/cmd/api/models"
@@ -14,7 +15,7 @@ func TestRolesRepository_FindAll(t *testing.T) {
 	assert := assert.New(t)
 
 	// 🔧 Preparar conexión y repositorio
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.RolesRepository{Conn: conn}
@@ -22,8 +23,8 @@ func TestRolesRepository_FindAll(t *testing.T) {
 	ctx := utils.CreateRequest(header)
 
 	t.Run("Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
-		utils.CreateTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.CreateTable(ctx, conn, models.RoleDb{})
 
 		roleDb := models.RoleDb{
 			ID:    1,
@@ -37,11 +38,11 @@ func TestRolesRepository_FindAll(t *testing.T) {
 		assert.Len(roles, 1)
 		assert.Equal("Admin", roles[0].Name)
 
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 	})
 
 	t.Run("Error", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 
 		roles, err := repository.FindAll(ctx)
 		assert.Error(err)
@@ -49,21 +50,21 @@ func TestRolesRepository_FindAll(t *testing.T) {
 	})
 
 	t.Run("EmptyTable", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
-		utils.CreateTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.CreateTable(ctx, conn, models.RoleDb{})
 
 		roles, err := repository.FindAll(ctx)
 		assert.NoError(err)
 		assert.Empty(roles)
 
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 	})
 }
 
 func TestRolesRepository_FirstBy(t *testing.T) {
 	assert := assert.New(t)
 
-	conn, err := utils.GetTestConnection()
+	conn, err := data_bases.GetTestConnection()
 	assert.NoError(err)
 
 	repository := &repositories.RolesRepository{Conn: conn}
@@ -77,8 +78,8 @@ func TestRolesRepository_FirstBy(t *testing.T) {
 	}
 
 	t.Run("Ok", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
-		utils.CreateTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.CreateTable(ctx, conn, models.RoleDb{})
 
 		roleDb := models.RoleDb{
 			ID:    1,
@@ -92,22 +93,22 @@ func TestRolesRepository_FirstBy(t *testing.T) {
 		assert.NotEmpty(roles)
 		assert.Equal("Admin", roles[0].Name)
 
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 	})
 
 	t.Run("ErrRecordNotFound", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
-		utils.CreateTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.CreateTable(ctx, conn, models.RoleDb{})
 
 		roles, err := repository.FirstBy(ctx, param)
 		assert.Error(err)
 		assert.Nil(roles)
 
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 	})
 
 	t.Run("Error_DB", func(t *testing.T) {
-		utils.DropTable(ctx, conn, models.RoleDb{})
+		data_bases.DropTable(ctx, conn, models.RoleDb{})
 
 		roles, err := repository.FirstBy(ctx, param)
 		assert.Error(err)

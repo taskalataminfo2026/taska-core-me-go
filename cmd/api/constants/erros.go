@@ -1,10 +1,14 @@
 package constants
 
-
 // Core services - Error messages.
 
 const (
 	ErrGeneratingAccessToken = "Error al generar tokens de acceso."
+)
+
+const (
+	ErrInvalidRequestFormat = "Formato de solicitud inválido: %v."
+	ErrInvalidInputData     = "Datos de entrada inválidos: %v."
 )
 
 // Password hash.
@@ -44,9 +48,20 @@ const (
 	ErrTokenRevoked      = "El token ha sido revocado. Por favor inicia sesión nuevamente."
 )
 
+// Skills repositories.
+const (
+	LogSkillsFound                 = "Skills encontrado: %+v"
+	LogSkillsNotFoundByFilters     = "No se encontraron skills con los filtros aplicados"
+	ErrSkillsQueryExecution        = "Error al ejecutar la consulta de skills"
+	LogSkillUpsert                 = "Guardando o actualizando skill: %+v"
+	ErrorMessageErrorFindingSkills = "Error al buscar por el id %v del skill."
+	ErrSkillSave                   = "Error guardando el skill"
+	ErrorMessageSkillsNotFound     = "No se encuentra ningún skill proporcionado."
+)
+
 // Users repositories.
 const (
-	ErrorMessageErrorFindingUser       = "Error al buscar el usuario: %v."
+	ErrorMessageErrorFindingUser       = "Error al buscar por el id %v del usuario."
 	ErrorMessageUserNotFoundByUserName = "No se encuentra ningún usuario con el nombre de usuario proporcionado."
 )
 
@@ -57,7 +72,7 @@ const (
 	ErrorMessageSavingToken       = "Error al guardar o actualizar  el token en la lista negra: %s"
 )
 
-// Users models.
+// Users dto.
 const (
 	MsgInvalidEmail         = "Correo electrónico inválido."
 	MsgPasswordLowercase    = "La contraseña debe contener al menos una letra minúscula."

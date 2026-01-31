@@ -119,7 +119,7 @@ func (s *JwtServices) GenerateToken(userID int64, username, email, role string, 
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiryTime)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    "taska-auth-service",
+			Issuer:    "taska-core-service",
 		},
 	}
 

@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "root_id": 0,
+    "parent_id": 0,
+    "name": "hogar y mantenimiento",
+    "slug": "hogar-mantenimiento",
+    "description": "Servicios relacionados con el hogar y mantenimiento general",
+    "icon": "home",
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-01-15T10:00:00Z"
+}
