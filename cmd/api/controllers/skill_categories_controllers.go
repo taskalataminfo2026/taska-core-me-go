@@ -26,12 +26,13 @@ type SkillsCategoriesController struct {
 	Validator                validator.IValidator
 }
 
-// Save guarda una categoría del marketplace.
-// @Summary Guardar categoría
-// @Description Crea o actualiza una categoría del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// Save guarda la relación entre una skill y una categoría.
+// @Summary Asociar skill a categoría
+// @Description Crea o actualiza la relación entre una skill y una categoría del marketplace.
+// @Tags SkillsCategories
 // @Accept json
 // @Produce json
+// @Param request body dto.ParamsSkillsCategorySaveDto true "Datos de la relación skill-categoría"
 // @Success 200 {object} dto.ListSkillsResponseDto "Categoría guardada correctamente"
 // @Router /v1/api/core/skills-categories/save [post]
 func (controller *SkillsCategoriesController) Save(c echo.Context) error {
@@ -43,7 +44,7 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Guardar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Asociar skill a categoría",
 		zap.String("endpoint", "/v1/api/core/skills-categories/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -64,16 +65,16 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 	return response_capture.HandleResponse(c, http.StatusOK, constants.StatusOk, dto.SkillCategoryToDto(data))
 }
 
-// Update actualiza una categoría del marketplace.
-// @Summary Actualizar categoría
-// @Description Actualiza los datos de una categoría existente del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// Update actualiza la relación entre una skill y una categoría.
+// @Summary Actualizar relación skill-categoría
+// @Description Actualiza los datos de una relación existente entre una skill y una categoría del marketplace.
+// @Tags SkillsCategories
 // @Accept json
 // @Produce json
-// @Param id path int true "ID de la categoría"
-// @Param request body dto.ParamsCategorySaveDto true "Datos de la categoría"
-// @Success 200 {object} dto.CategoryResponseDto "Categoría actualizada correctamente"
-// @Router /v1/api/core/skills-categories/:id [put]
+// @Param id path int true "ID de la relación skill-categoría"
+// @Param request body dto.ParamsSkillsCategorySaveDto true "Datos de la relación skill-categoría"
+// @Success 200 {object} dto.SkillCategoryResponseDto "Relación skill-categoría actualizada correctamente"
+// @Router /v1/api/core/skills-categories/{id} [put]
 func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
@@ -84,7 +85,7 @@ func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Actualizar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Actualizar relación skill-categoría",
 		zap.String("endpoint", "/v1/api/core/skills-categories/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),

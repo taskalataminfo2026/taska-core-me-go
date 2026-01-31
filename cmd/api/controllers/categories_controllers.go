@@ -31,7 +31,7 @@ type CategoriesController struct {
 // Search realiza la búsqueda de habilidades activas del marketplace.
 // @Summary Buscar habilidades
 // @Description Permite buscar habilidades activas del marketplace usando texto, categoría y paginación. Se utiliza para exploración, filtros y matching.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Param q query string false "Texto de búsqueda (nombre o descripción)"
@@ -79,7 +79,7 @@ func (controller *CategoriesController) Search(c echo.Context) error {
 // List lista las categorías activas del marketplace.
 // @Summary Listar categorías
 // @Description Devuelve un listado de categorías activas del marketplace. Se utiliza para navegación, filtros y clasificación de habilidades.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.ListSkillsResponseDto "Listado de habilidades"
@@ -112,7 +112,7 @@ func (controller *CategoriesController) List(c echo.Context) error {
 // Save guarda una categoría del marketplace.
 // @Summary Guardar categoría
 // @Description Crea o actualiza una categoría del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.ListSkillsResponseDto "Categoría guardada correctamente"
@@ -150,7 +150,7 @@ func (controller *CategoriesController) Save(c echo.Context) error {
 // Update actualiza una categoría del marketplace.
 // @Summary Actualizar categoría
 // @Description Actualiza los datos de una categoría existente del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Param id path int true "ID de la categoría"
