@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: taska-auth-me
+    name: taska-core-me
     env: go
     plan: free
     region: ohio
