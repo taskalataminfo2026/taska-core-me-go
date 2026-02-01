@@ -24,7 +24,7 @@ FROM alpine:3.19
 WORKDIR /root
 RUN apk --no-cache add ca-certificates
 
-COPY --from=builder /app/taska-auth .
+COPY --from=builder /app/taska-core .
 
 EXPOSE 8080
 CMD ["./taska-core"]
