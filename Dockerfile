@@ -27,4 +27,4 @@ RUN apk --no-cache add ca-certificates
 COPY --from=builder /app/taska-auth .
 
 EXPOSE 8080
-CMD ["./taska-auth"]
+CMD ["./taska-core"]
