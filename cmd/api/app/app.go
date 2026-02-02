@@ -37,8 +37,6 @@ var ControllerRouterSet = wire.NewSet(
 
 // 🔹 Services
 var ServicesRouterSet = wire.NewSet(
-	providers.JwtService,
-	wire.Bind(new(services.IJWTServices), new(*services.JwtServices)),
 	providers.CategoriesServices,
 	wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)),
 	providers.SkillsServices,
@@ -51,10 +49,6 @@ var ServicesRouterSet = wire.NewSet(
 var RepositoryRouterSet = wire.NewSet(
 	providers.CategoriesRepository,
 	wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)),
-	providers.RolesTokenRepository,
-	wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)),
-	providers.BlacklistedTokenRepository,
-	wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)),
 	providers.SkillsRepository,
 	wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)),
 )

@@ -10,8 +10,6 @@ import (
 
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
 	"taska-core-me-go/cmd/api/app"
-	"taska-core-me-go/cmd/api/app/providers"
-	middlewares2 "taska-core-me-go/cmd/api/middlewares"
 )
 
 // @title Taska Auth API
@@ -34,13 +32,6 @@ func main() {
 	defer logger.Sync()
 
 	logger.Info(ctx, "[server] Inicializando aplicación...")
-
-	db, err := providers.DatabaseConnectionPostgres()
-	if err != nil {
-		logger.Error(ctx, "[server] Error al conectar a la base de datos: %v", err)
-		os.Exit(1)
-	}
-	middlewares2.InitRoleMiddleware(db)
 
 	appInstance, err := app.Start()
 	if err != nil {

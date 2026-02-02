@@ -50,10 +50,10 @@ var ClientSet = wire.NewSet(providers.GetRustyClient, wire.Bind(new(rusty.IRusty
 var ControllerRouterSet = wire.NewSet(providers.CategoriesController, wire.Bind(new(controllers.ICategoriesController), new(*controllers.CategoriesController)), providers.SkillsController, wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)), providers.TaskerController, wire.Bind(new(controllers.ITaskerController), new(*controllers.TaskerController)))
 
 // 🔹 Services
-var ServicesRouterSet = wire.NewSet(providers.JwtService, wire.Bind(new(services.IJWTServices), new(*services.JwtServices)), providers.CategoriesServices, wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)), providers.SkillsServices, wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)), providers.TaskerServices, wire.Bind(new(services.ITaskerServices), new(*services.TaskerServices)))
+var ServicesRouterSet = wire.NewSet(providers.CategoriesServices, wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)), providers.SkillsServices, wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)), providers.TaskerServices, wire.Bind(new(services.ITaskerServices), new(*services.TaskerServices)))
 
 // 🔹 Repositories
-var RepositoryRouterSet = wire.NewSet(providers.CategoriesRepository, wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)), providers.RolesTokenRepository, wire.Bind(new(repositories.IRolesRepository), new(*repositories.RolesRepository)), providers.BlacklistedTokenRepository, wire.Bind(new(repositories.IBlacklistedTokenRepository), new(*repositories.BlacklistedTokenRepository)), providers.SkillsRepository, wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)))
+var RepositoryRouterSet = wire.NewSet(providers.CategoriesRepository, wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)), providers.SkillsRepository, wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)))
 
 // 🔹 Validators
 var ValidatorRouterSet = wire.NewSet(providers.Validator, wire.Bind(new(validator.IValidator), new(*validator.Validator)))
