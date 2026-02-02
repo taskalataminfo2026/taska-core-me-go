@@ -12,9 +12,9 @@ import (
 	"taska-core-me-go/cmd/api/app"
 )
 
-// @title Taska Auth API
+// @title Taska Core API
 // @version 1.0
-// @description API de autenticación y gestión de usuarios para Taska LATAM.
+// @description API de logica de negocio.
 // @termsOfService https://taska/terminos
 
 // @contact.name Soporte Taska

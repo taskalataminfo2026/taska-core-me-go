@@ -6,13 +6,5 @@ const (
 )
 
 const (
-	TypeUserUser       = "user"
-	TypeUserTasker     = "tasker"
-	TypeUserManager    = "manager"
-	TypeUserAdmin      = "admin"
-	TypeUserSuperAdmin = "superadmin"
-)
-
-const (
 	StatusOk = "OK"
 )

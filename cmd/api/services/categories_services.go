@@ -2,6 +2,9 @@ package services
 
 import (
 	"context"
+	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
+	"go.uber.org/zap"
+	"taska-core-me-go/cmd/api/constants"
 	"taska-core-me-go/cmd/api/models"
 	"taska-core-me-go/cmd/api/repositories"
 )
@@ -20,15 +23,17 @@ type CategoriesServices struct {
 }
 
 func (services *CategoriesServices) Search(ctx context.Context, request models.ParamsCategorySearch) ([]models.Category, error) {
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleCategories, constants.FunctionCategorySearch, "Buscando categorías")
 	return services.CategoriesRepository.FindBy(ctx, request)
 }
 
 func (services *CategoriesServices) List(ctx context.Context) ([]models.Category, error) {
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleCategories, constants.FunctionCategoryList, "Listando todas las categorías activas")
 	return services.CategoriesRepository.FindAll(ctx)
 }
 
 func (services *CategoriesServices) Save(ctx context.Context, request models.ParamsCategorySave) (models.Category, error) {
-
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleCategories, constants.FunctionCategoriesSave, "Creando categoría", zap.String("name", request.Name))
 	category := models.Category{
 		RootID:      request.RootID,
 		ParentID:    request.ParentID,
@@ -44,6 +49,7 @@ func (services *CategoriesServices) Save(ctx context.Context, request models.Par
 }
 
 func (services *CategoriesServices) Update(ctx context.Context, id int64, request models.ParamsCategorySave) (models.Category, error) {
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleCategories, constants.FunctionCategoriesUpsert, "Actualizando categoría", zap.Int64("category_id", id))
 	var (
 		category models.Category
 		err      error

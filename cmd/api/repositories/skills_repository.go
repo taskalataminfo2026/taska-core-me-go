@@ -31,7 +31,7 @@ type SkillsRepository struct {
 }
 
 func (repository *SkillsRepository) FindBy(ctx context.Context, request models.ParamsSkillsSearch) ([]models.Skills, error) {
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, fmt.Sprintf("Buscando skill con filtro: %+v", request))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, fmt.Sprintf("Buscando skill con filtro: %+v", request))
 
 	var skillsDb []modelsDB.SkillsDb
 	var paramUserDB modelsDB.ParamsSkillsSearchDb
@@ -48,16 +48,16 @@ func (repository *SkillsRepository) FindBy(ctx context.Context, request models.P
 		Find(&skillsDb)
 
 	if res.Error != nil {
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, "Error al ejecutar la consulta de skills")
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, res.Error, "Error al ejecutar la consulta de skills")
 		return nil, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, fmt.Sprintf(constants.ErrorMessageErrorFindingSkills, request.ID))
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
 	return modelsDB.ToDomainList(skillsDb), nil
 }
 
 func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.Skills, error) {
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, "Iniciando consulta de todos los skills")
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindAll, "Iniciando consulta de todos los skills")
 	var skillsListDb []modelsDB.SkillsDb
 
 	res := repository.Conn.
@@ -66,7 +66,7 @@ func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.Skill
 		Find(&skillsListDb)
 
 	if res.Error != nil {
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, res.Error, "Error al consultar los skills")
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionCategoriesFindAll, res.Error, "Error al consultar los skills")
 		return []models.Skills{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
 	}
 
@@ -74,7 +74,7 @@ func (repository *SkillsRepository) FindAll(ctx context.Context) ([]models.Skill
 }
 
 func (repository *SkillsRepository) FirstBy(ctx context.Context, request models.ParamsSkillsSearch) (models.Skills, error) {
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, fmt.Sprintf("Buscando skill con filtro: %+v", request))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFirstBy, fmt.Sprintf("Buscando skill con filtro: %+v", request))
 
 	var skillsDb modelsDB.SkillsDb
 	var paramUserDB modelsDB.ParamsSkillsSearchDb
@@ -90,26 +90,25 @@ func (repository *SkillsRepository) FirstBy(ctx context.Context, request models.
 
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, constants.LogSkillsNotFoundByFilters)
+			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, res.Error, constants.LogSkillsNotFoundByFilters)
 			return models.Skills{}, response_capture.NewErrorME(ctx, http.StatusNotFound, res.Error, constants.ErrorMessageUserNotFoundByUserName)
 		}
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, res.Error, constants.ErrSkillsQueryExecution)
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, res.Error, constants.ErrSkillsQueryExecution)
 		return models.Skills{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, fmt.Sprintf(constants.ErrorMessageErrorFindingUser, request.ID))
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFirstBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsFindBy, fmt.Sprintf(constants.LogSkillsFound, skillsDb))
 	return skillsDb.ToDomainModel(), nil
 }
 
 func (repository *SkillsRepository) Upsert(ctx context.Context, request models.Skills) (models.Skills, error) {
-
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsUpsert, fmt.Sprintf(constants.LogSkillUpsert, request))
 	var (
 		entity modelsDB.SkillsDb
 		err    error
 	)
 
 	entity.Load(request)
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionFindAll, fmt.Sprintf(constants.LogSkillUpsert, request))
 
 	tx := repository.Conn.WithContext(ctx).Begin()
 
@@ -121,11 +120,11 @@ func (repository *SkillsRepository) Upsert(ctx context.Context, request models.S
 
 	if err != nil {
 		tx.Rollback()
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, err, constants.ErrSkillSave, zap.Any("body", entity))
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsUpsert, err, constants.ErrSkillSave, zap.Any("body", entity))
 		return entity.ToDomainModel(), response_capture.NewErrorME(ctx, http.StatusBadRequest, err, fmt.Sprintf(constants.ErrorMessageSavingToken, err.Error()))
 	}
 
 	tx.Commit()
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionUpsert, constants.MsgSkillSavedSuccessfully, zap.Int64("skill_id", entity.ID))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkills, constants.FunctionSkillsUpsert, constants.MsgSkillSavedSuccessfully, zap.Int64("skill_id", entity.ID))
 	return entity.ToDomainModel(), nil
 }

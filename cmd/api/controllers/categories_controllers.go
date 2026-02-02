@@ -31,7 +31,7 @@ type CategoriesController struct {
 // Search realiza la búsqueda de habilidades activas del marketplace.
 // @Summary Buscar habilidades
 // @Description Permite buscar habilidades activas del marketplace usando texto, categoría y paginación. Se utiliza para exploración, filtros y matching.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Param q query string false "Texto de búsqueda (nombre o descripción)"
@@ -50,7 +50,7 @@ func (controller *CategoriesController) Search(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSearch, "Busqueda de habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategorySearch, "Solicitud de búsqueda de categorías",
 		zap.String("endpoint", "/v1/api/core/category/search"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -79,7 +79,7 @@ func (controller *CategoriesController) Search(c echo.Context) error {
 // List lista las categorías activas del marketplace.
 // @Summary Listar categorías
 // @Description Devuelve un listado de categorías activas del marketplace. Se utiliza para navegación, filtros y clasificación de habilidades.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.ListSkillsResponseDto "Listado de habilidades"
@@ -93,7 +93,7 @@ func (controller *CategoriesController) List(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Listar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Solicitud de listado de categorías",
 		zap.String("endpoint", "/v1/api/core/category/list"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -112,7 +112,7 @@ func (controller *CategoriesController) List(c echo.Context) error {
 // Save guarda una categoría del marketplace.
 // @Summary Guardar categoría
 // @Description Crea o actualiza una categoría del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.ListSkillsResponseDto "Categoría guardada correctamente"
@@ -126,7 +126,7 @@ func (controller *CategoriesController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Guardar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Solicitud de creación de categoría",
 		zap.String("endpoint", "/v1/api/core/category/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -150,7 +150,7 @@ func (controller *CategoriesController) Save(c echo.Context) error {
 // Update actualiza una categoría del marketplace.
 // @Summary Actualizar categoría
 // @Description Actualiza los datos de una categoría existente del marketplace para organización, navegación y filtros.
-// @Tags Skills
+// @Tags Category
 // @Accept json
 // @Produce json
 // @Param id path int true "ID de la categoría"
@@ -167,7 +167,7 @@ func (controller *CategoriesController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Actualizar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Solicitud de actualización de categoría",
 		zap.String("endpoint", "/v1/api/core/category/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),

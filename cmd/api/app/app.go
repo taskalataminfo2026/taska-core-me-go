@@ -29,6 +29,8 @@ var ClientSet = wire.NewSet(
 var ControllerRouterSet = wire.NewSet(
 	providers.CategoriesController,
 	wire.Bind(new(controllers.ICategoriesController), new(*controllers.CategoriesController)),
+	providers.SkillsCategoriesController,
+	wire.Bind(new(controllers.ISkillsCategoriesController), new(*controllers.SkillsCategoriesController)),
 	providers.SkillsController,
 	wire.Bind(new(controllers.ISkillsController), new(*controllers.SkillsController)),
 	providers.TaskerController,
@@ -39,6 +41,8 @@ var ControllerRouterSet = wire.NewSet(
 var ServicesRouterSet = wire.NewSet(
 	providers.CategoriesServices,
 	wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)),
+	providers.SkillsCategoriesServices,
+	wire.Bind(new(services.ISkillsCategoriesServices), new(*services.SkillsCategoriesServices)),
 	providers.SkillsServices,
 	wire.Bind(new(services.ISkillsServices), new(*services.SkillsServices)),
 	providers.TaskerServices,
@@ -49,6 +53,8 @@ var ServicesRouterSet = wire.NewSet(
 var RepositoryRouterSet = wire.NewSet(
 	providers.CategoriesRepository,
 	wire.Bind(new(repositories.ICategoriesRepository), new(*repositories.CategoriesRepository)),
+	providers.SkillsCategoriesRepository,
+	wire.Bind(new(repositories.ISkillsCategoriesRepository), new(*repositories.SkillsCategoriesRepository)),
 	providers.SkillsRepository,
 	wire.Bind(new(repositories.ISkillsRepository), new(*repositories.SkillsRepository)),
 )
