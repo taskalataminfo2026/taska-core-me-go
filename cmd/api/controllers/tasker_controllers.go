@@ -33,7 +33,7 @@ type TaskerController struct {
 // @Produce json
 // @Param id_user path int true "ID del tasker"
 // @Success 200 {object} dto.ListSkillsResponseDto
-// @Router /v1/api/core/tasker/{id_user}/skills [get]
+// @Router /v1/api/core/tasker/:id_user/skills [get]
 func (controller *TaskerController) TaskerProfile(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
@@ -44,8 +44,8 @@ func (controller *TaskerController) TaskerProfile(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleTasker, constants.FunctionTaskerList, "Habilidades de un tasker",
-		zap.String("endpoint", "/v1/api/core/tasker/{id_user}/skills"),
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleTasker, constants.FunctionTaskerList, "Solicitud de perfil de tasker (habilidades)",
+		zap.String("endpoint", "/v1/api/core/tasker/:id_user/skills"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
 	)

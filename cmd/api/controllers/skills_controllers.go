@@ -50,7 +50,7 @@ func (controller *SkillsController) Search(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSearch, "Busqueda de habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSearch, "Solicitud de búsqueda de skills",
 		zap.String("endpoint", "/v1/api/core/skills/search"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -93,7 +93,7 @@ func (controller *SkillsController) List(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Listar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Solicitud de listado de skills",
 		zap.String("endpoint", "/v1/api/core/skills/list"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -127,7 +127,7 @@ func (controller *SkillsController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSave, "Guardar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSave, "Solicitud de creación de skill",
 		zap.String("endpoint", "/v1/api/core/skills/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -167,7 +167,7 @@ func (controller *SkillsController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsUpdate, "Actualizar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsUpdate, "Solicitud de actualización de skill",
 		zap.String("endpoint", "/v1/api/core/skills/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),

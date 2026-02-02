@@ -44,7 +44,7 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesSave, "Asociar skill a categoria",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesSave, "Solicitud para asociar skill a categoría",
 		zap.String("endpoint", "/v1/api/core/skills-categories/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -74,7 +74,7 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 // @Param id path int true "ID de la relación skill-categoría"
 // @Param request body dto.ParamsSkillsCategorySaveDto true "Datos de la relación skill-categoría"
 // @Success 200 {object} dto.SkillCategoryResponseDto "Relación skill-categoría actualizada correctamente"
-// @Router /v1/api/core/skills-categories/{id} [put]
+// @Router /v1/api/core/skills-categories/:id [put]
 func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 	ctx := utils.CreateRequestContext(c)
 
@@ -85,7 +85,7 @@ func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpdate, "Actualizar relación hablidades_categorias",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpdate, "Solicitud para actualizar relación skill-categoría",
 		zap.String("endpoint", "/v1/api/core/skills-categories/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
