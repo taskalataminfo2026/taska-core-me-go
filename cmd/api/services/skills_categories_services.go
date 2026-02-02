@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"github.com/taskalataminfo2026/tool-kit-lib-go/pkg/logger"
+	"go.uber.org/zap"
 	"taska-core-me-go/cmd/api/constants"
 	"taska-core-me-go/cmd/api/models"
 	"taska-core-me-go/cmd/api/repositories"
@@ -21,7 +21,7 @@ type SkillsCategoriesServices struct {
 }
 
 func (services *SkillsCategoriesServices) Save(ctx context.Context, request models.ParamsSkillsCategorySave) (models.SkillCategory, error) {
-	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesSave, fmt.Sprintf("Creando relación skill-categoría: skillID=%d, categoryID=%d", request.SkillID, request.CategoryID))
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesSave, "Creando relación skill-categoría")
 	skillCategory := models.SkillCategory{
 		SkillID:    request.SkillID,
 		CategoryID: request.CategoryID,
@@ -33,7 +33,7 @@ func (services *SkillsCategoriesServices) Save(ctx context.Context, request mode
 }
 
 func (services *SkillsCategoriesServices) Update(ctx context.Context, id int64, request models.ParamsSkillsCategorySave) (models.SkillCategory, error) {
-	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpdate, fmt.Sprintf("Iniciando actualización de relación skill-categoría. ID=%d", id))
+	logger.StandardInfo(ctx, constants.LayerService, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpdate, "Actualizando relación skill-categoría", zap.Int64("relation_id", id))
 	var (
 		category models.SkillCategory
 		err      error

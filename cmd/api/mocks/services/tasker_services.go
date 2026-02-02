@@ -36,9 +36,9 @@ func (m *MockITaskerServices) EXPECT() *MockITaskerServicesMockRecorder {
 }
 
 // GetTasker mocks base method.
-func (m *MockITaskerServices) GetTasker(ctx context.Context, request models.ParamsProfile) (models.Tasker, error) {
+func (m *MockITaskerServices) Find(ctx context.Context, request models.ParamsProfile) (models.Tasker, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTasker", ctx, request)
+	ret := m.ctrl.Call(m, "Find", ctx, request)
 	ret0, _ := ret[0].(models.Tasker)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -47,5 +47,5 @@ func (m *MockITaskerServices) GetTasker(ctx context.Context, request models.Para
 // GetTasker indicates an expected call of GetTasker.
 func (mr *MockITaskerServicesMockRecorder) GetTasker(ctx, request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTasker", reflect.TypeOf((*MockITaskerServices)(nil).GetTasker), ctx, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockITaskerServices)(nil).Find), ctx, request)
 }

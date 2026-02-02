@@ -44,7 +44,7 @@ func (controller *TaskerController) TaskerProfile(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleTasker, constants.FunctionTaskerList, "Solicitud de perfil de tasker (habilidades)",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleTasker, constants.FunctionTaskerFind, "Solicitud de perfil de tasker (habilidades)",
 		zap.String("endpoint", "/v1/api/core/tasker/:id_user/skills"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -61,7 +61,7 @@ func (controller *TaskerController) TaskerProfile(c echo.Context) error {
 	}
 
 	logger.Info(ctx, "Initializing")
-	data, err = controller.TaskerServices.GetTasker(ctx, entity.ToModel())
+	data, err = controller.TaskerServices.Find(ctx, entity.ToModel())
 	if err != nil {
 		return response_capture.RespondError(c, err)
 	}
