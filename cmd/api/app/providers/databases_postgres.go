@@ -37,19 +37,19 @@ func GetDBConnectionPostgres() (*gorm.DB, error) {
 		sslMode = "require"
 	}
 
-	connString := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=America/Bogota",
-		config.Config.DB.Host,
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s&timezone=America/Bogota",
 		config.Config.DB.Username,
 		config.Config.DB.Password,
-		config.Config.DB.Name,
+		config.Config.DB.Host,
 		config.Config.DB.Port,
+		config.Config.DB.Name,
 		sslMode,
 	)
 
-	conn, err := gorm.Open(postgres.Open(connString), &gorm.Config{PrepareStmt: true, QueryFields: true})
+	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{PrepareStmt: true, QueryFields: true})
 	if err != nil {
-		logger.Error(context.Background(), constants.ErrOpeningDBConnection, err)
+		logger.Error(context.Background(), fmt.Sprintf(constants.ErrOpeningDBConnection, err.Error()), err)
 		return nil, err
 	}
 
