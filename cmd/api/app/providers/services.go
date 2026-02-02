@@ -7,17 +7,10 @@ import (
 
 func CategoriesServices(cr repositories.ICategoriesRepository) *services.CategoriesServices {
 	return &services.CategoriesServices{CategoriesRepository: cr}
-<<<<<<< HEAD
-}
-
-func JwtService() *services.JwtServices {
-	return &services.JwtServices{}
 }
 
 func SkillsCategoriesServices(sc repositories.ISkillsCategoriesRepository) *services.SkillsCategoriesServices {
 	return &services.SkillsCategoriesServices{SkillsCategoriesRepository: sc}
-=======
->>>>>>> master
 }
 
 func SkillsServices(sr repositories.ISkillsRepository) *services.SkillsServices {
