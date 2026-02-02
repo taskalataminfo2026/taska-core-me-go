@@ -44,7 +44,7 @@ func (controller *SkillsCategoriesController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Asociar skill a categoría",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesSave, "Asociar skill a categoria",
 		zap.String("endpoint", "/v1/api/core/skills-categories/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -85,7 +85,7 @@ func (controller *SkillsCategoriesController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Actualizar relación skill-categoría",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpdate, "Actualizar relación hablidades_categorias",
 		zap.String("endpoint", "/v1/api/core/skills-categories/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),

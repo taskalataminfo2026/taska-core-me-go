@@ -10,40 +10,43 @@ const (
 
 // Module
 const (
-	ModuleCategories       = "categories "
-	ModuleSkills           = "skills"
-	ModuleRoles            = "roles"
-	ModuleBlacklistedToken = "black_listed_token"
-	ModuleJwt              = "jwt"
+	ModuleCategories          = "categories "
+	ModuleSkills              = "skills"
+	ModuleSkillsAndCategories = "skills_categories"
+	ModuleTasker              = "tasker"
 )
 
 // Function Skills
 const (
-	FunctionSkillsSearch = "skills_search"
-	FunctionSkillsList   = "skills_list"
-	FunctionSkillsSave   = "skills_save"
-	FunctionSkillsUpdate = "skills_update"
+	FunctionSkillsFindBy  = "skills_find_by"
+	FunctionSkillsFindAll = "skills_find_all"
+	FunctionSkillsFirstBy = "skills_first_by"
+	FunctionSkillsSearch  = "skills_search"
+	FunctionSkillsList    = "skills_list"
+	FunctionSkillsSave    = "skills_save"
+	FunctionSkillsUpdate  = "skills_update"
+	FunctionSkillsUpsert  = "skills_upsert"
 )
 
 // Function Categories
 const (
-	FunctionCategorySearch = "Category_search"
-	FunctionCategoryList   = "Category_list"
-	FunctionCategorySave   = "Category_save"
-	FunctionCategoryUpdate = "skills_update"
+	FunctionCategorySearch    = "category_search"
+	FunctionCategoryList      = "category_list"
+	FunctionCategoriesFindAll = "category_find_all"
+	FunctionCategoriesFirstBy = "category_first_by"
+	FunctionCategoriesUpsert  = "category_upsert"
+	FunctionCategoriesSave    = "category_save"
 )
 
-// Function Roles
+// Function Skills-Categories
 const (
-	FunctionFindAll              = "find_all"
-	FunctionFirstBy              = "first_by"
-	FunctionGenerateAccessToken  = "generate_access_token"
-	FunctionGenerateRefreshToken = "generate_refresh_token"
-	FunctionRefreshToken         = "refresh_token"
-	FunctionValidateToken        = "validate_token"
-	FunctionDeleteExpired        = "delete_expired"
-	FunctionFirstByToken         = "first_by_token"
-	FunctionFirstByTokenNil      = "first_by_token_nil"
-	FunctionSave                 = "save"
-	FunctionUpsert               = "upsert"
+	FunctionSkillsCategoriesFirstBy = "skills_category_first_by"
+	FunctionSkillsCategoriesSave    = "skills_category_save"
+	FunctionSkillsCategoriesUpdate  = "skills_category_update"
+	FunctionSkillsCategoriesUpsert  = "skills_category_upsert"
+)
+
+// Function Tasker
+const (
+	FunctionTaskerList = "tasker_list"
 )

@@ -29,7 +29,7 @@ type SkillsCategoriesRepository struct {
 }
 
 func (repository *SkillsCategoriesRepository) FirstBy(ctx context.Context, request models.ParamsSkillsCategorySearch) (models.SkillCategory, error) {
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFindAll, fmt.Sprintf("Buscando skill con filtro: %+v", request))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesFirstBy, fmt.Sprintf("Buscando skill con filtro: %+v", request))
 
 	var entity modelsDB.SkillCategoryDb
 	var paramUserDB modelsDB.ParamsSkillsCategorySearchDb
@@ -45,14 +45,14 @@ func (repository *SkillsCategoriesRepository) FirstBy(ctx context.Context, reque
 
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFirstBy, res.Error, "categoria no encontrado por filtros")
+			logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesFirstBy, res.Error, "categoria no encontrado por filtros")
 			return models.SkillCategory{}, response_capture.NewErrorME(ctx, http.StatusNotFound, res.Error, constants.ErrorMessageUserNotFoundByUserName)
 		}
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFirstBy, res.Error, "Error al ejecutar la consulta de categoria")
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesFirstBy, res.Error, "Error al ejecutar la consulta de categoria")
 		return models.SkillCategory{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, res.Error, constants.ErrorMessageErrorFindingUser)
 	}
 
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFirstBy, fmt.Sprintf("Categories encontrado: %+v", entity))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesFirstBy, fmt.Sprintf("Categories encontrado: %+v", entity))
 	return entity.ToDomainModel(), nil
 }
 
@@ -64,7 +64,7 @@ func (repository *SkillsCategoriesRepository) Upsert(ctx context.Context, reques
 	)
 
 	entity.Load(request)
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionFindAll, fmt.Sprintf("Guardando o actualizando categoria: %+v", request))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpsert, fmt.Sprintf("Guardando o actualizando categoria: %+v", request))
 
 	tx := repository.Conn.WithContext(ctx).Begin()
 
@@ -76,11 +76,11 @@ func (repository *SkillsCategoriesRepository) Upsert(ctx context.Context, reques
 
 	if err != nil {
 		tx.Rollback()
-		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionUpsert, err, "Error guardando la categoria", zap.Any("body", entity))
+		logger.StandardError(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpsert, err, "Error guardando la categoria", zap.Any("body", entity))
 		return models.SkillCategory{}, response_capture.NewErrorME(ctx, http.StatusBadRequest, err, fmt.Sprintf(constants.ErrorMessageSavingToken, err.Error()))
 	}
 
 	tx.Commit()
-	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleCategories, constants.FunctionUpsert, "Categoria guardado correctamente", zap.Int64("skill_id", entity.ID))
+	logger.StandardInfo(ctx, constants.LayerRepository, constants.ModuleSkillsAndCategories, constants.FunctionSkillsCategoriesUpsert, "Categoria guardado correctamente", zap.Int64("skill_id", entity.ID))
 	return entity.ToDomainModel(), nil
 }

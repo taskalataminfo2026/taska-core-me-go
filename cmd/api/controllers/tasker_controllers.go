@@ -44,7 +44,7 @@ func (controller *TaskerController) TaskerProfile(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsList, "Habilidades de un tasker",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleTasker, constants.FunctionTaskerList, "Habilidades de un tasker",
 		zap.String("endpoint", "/v1/api/core/tasker/{id_user}/skills"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),

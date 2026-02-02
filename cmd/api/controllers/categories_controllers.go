@@ -50,7 +50,7 @@ func (controller *CategoriesController) Search(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionSkillsSearch, "Busqueda de habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategorySearch, "Busqueda de habilidades",
 		zap.String("endpoint", "/v1/api/core/category/search"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -93,7 +93,7 @@ func (controller *CategoriesController) List(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Listar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Listar habilidades",
 		zap.String("endpoint", "/v1/api/core/category/list"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -126,7 +126,7 @@ func (controller *CategoriesController) Save(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Guardar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Guardar habilidades",
 		zap.String("endpoint", "/v1/api/core/category/save"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
@@ -167,7 +167,7 @@ func (controller *CategoriesController) Update(c echo.Context) error {
 		err    error
 	)
 
-	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleSkills, constants.FunctionCategoryList, "Actualizar habilidades",
+	logger.StandardInfo(ctx, constants.LayerController, constants.ModuleCategories, constants.FunctionCategoryList, "Actualizar habilidades",
 		zap.String("endpoint", "/v1/api/core/category/:id"),
 		zap.String("method", c.Request().Method),
 		zap.String("ip", c.RealIP()),
