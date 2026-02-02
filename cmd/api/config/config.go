@@ -25,13 +25,6 @@ type ConnectionConfig struct {
 	ConnMaxIdleTime      time.Duration
 }
 
-type JWTManager struct {
-	SecretKey     string
-	AccessExpiry  time.Duration
-	RefreshExpiry time.Duration
-	ExpiredTokens time.Duration
-}
-
 type RustyClientConfig struct {
 	DefaultTimeOut time.Duration
 	RetryCount     int
@@ -39,7 +32,6 @@ type RustyClientConfig struct {
 
 type AppConfig struct {
 	DB    ConnectionConfig
-	JWT   JWTManager
 	Rusty RustyClientConfig
 	Env   string
 }
@@ -69,13 +61,6 @@ func init() {
 		ConnMaxIdleTime:      600 * time.Second,
 	}
 
-	jwtConfig := JWTManager{
-		SecretKey:     getEnv("JWT_SECRET", "default-secret"),
-		AccessExpiry:  15 * time.Minute,
-		RefreshExpiry: 90 * 24 * time.Hour,
-		ExpiredTokens: 24 * time.Hour,
-	}
-
 	rustyConfig := RustyClientConfig{
 		DefaultTimeOut: getDurationEnv("RUSTY_TIMEOUT", 11) * time.Second,
 		RetryCount:     getIntEnv("RUSTY_RETRY_COUNT", 3),
@@ -83,7 +68,6 @@ func init() {
 
 	Config = &AppConfig{
 		DB:    dbConfig,
-		JWT:   jwtConfig,
 		Rusty: rustyConfig,
 		Env:   env,
 	}

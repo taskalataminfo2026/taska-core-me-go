@@ -37,8 +37,6 @@ var ControllerRouterSet = wire.NewSet(
 
 // 🔹 Services
 var ServicesRouterSet = wire.NewSet(
-	providers.JwtService,
-	wire.Bind(new(services.IJWTServices), new(*services.JwtServices)),
 	providers.CategoriesServices,
 	wire.Bind(new(services.ICategoriesServices), new(*services.CategoriesServices)),
 	providers.SkillsServices,
